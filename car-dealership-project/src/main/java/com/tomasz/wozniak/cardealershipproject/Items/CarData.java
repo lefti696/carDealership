@@ -1,11 +1,11 @@
 package com.tomasz.wozniak.cardealershipproject.Items;
 
-public class Car {
+public class CarData {
 
     private String color;
     private String make;
 
-    public Car(String color, String make) {
+    public CarData(String color, String make) {
         this.color = color;
         this.make = make;
     }
