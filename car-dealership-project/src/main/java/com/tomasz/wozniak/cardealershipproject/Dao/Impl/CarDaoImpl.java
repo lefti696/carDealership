@@ -12,9 +12,9 @@ import java.util.List;
 
 @Transactional
 @Repository
-public class CardDaoImpl implements CarDao {
+public class CarDaoImpl implements CarDao {
 
-    private static final Logger logger = Logger.getLogger(CardDaoImpl.class);
+    private static final Logger logger = Logger.getLogger(CarDaoImpl.class);
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -61,16 +61,5 @@ public class CardDaoImpl implements CarDao {
     public int countAllCars() {
         String hql = "select count(c) from cars c";
         return Integer.valueOf(entityManager.createQuery(hql).getResultList().get(0).toString());
-    }
-
-    @Override
-    public void createSampleDb() {
-
-        CarModel sampleCarModel = new CarModel("red", "ferrari", 2018);
-
-        int idOfAddedCar = addCar(sampleCarModel);
-        logger.info("Id of created car is " + idOfAddedCar);
-
-        logger.info(countAllCars() + " records created.");
     }
 }

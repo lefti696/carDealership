@@ -12,7 +12,5 @@ public class CarDealershipProjectApplication {
 
 		//configuration for log4j
         BasicConfigurator.configure();
-
-
 	}
 }

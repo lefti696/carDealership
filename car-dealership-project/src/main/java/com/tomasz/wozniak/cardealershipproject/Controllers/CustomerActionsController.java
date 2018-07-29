@@ -1,7 +1,7 @@
 package com.tomasz.wozniak.cardealershipproject.Controllers;
 
-import com.tomasz.wozniak.cardealershipproject.Dao.CarDao;
 import com.tomasz.wozniak.cardealershipproject.Items.CarData;
+import com.tomasz.wozniak.cardealershipproject.Service.CarService;
 import com.tomasz.wozniak.cardealershipproject.model.CarModel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +15,17 @@ import java.util.List;
 public class CustomerActionsController {
 
     private static final Logger logger = Logger.getLogger(CustomerActionsController.class);
-    private CarDao carDao;
+
+    private CarService carService;
 
     @Autowired
-    public void setCarDao(CarDao carDao){
-        this.carDao = carDao;
+    public void setCarService(CarService carService) {
+        this.carService = carService;
     }
 
     @RequestMapping("/test")
     public CarData greeting(@RequestParam(value="color", defaultValue="Red") String color,
-                             @RequestParam(value="make", defaultValue = "Ford") String make) {
+                            @RequestParam(value="make", defaultValue = "Ford") String make) {
 
         CarData firstCar = new CarData(color, make);
 
@@ -33,12 +34,24 @@ public class CustomerActionsController {
 
     @RequestMapping("/listAllCars")
     public List<CarModel> listAllCars () {
-
         logger.debug("Listing all cars");
 
-        carDao.createSampleDb();
-        List<CarModel> allCars = carDao.getAllCars();
+        List<CarModel> allCars = carService.getAllCars();
 
         return allCars;
+    }
+
+    @RequestMapping("/howManyCars")
+    public int howManyCars () {
+        logger.debug("Counting all available cars.");
+
+        return carService.countAllCars();
+    }
+
+    @RequestMapping("/findById")
+    public CarModel findCarByMfy (@RequestParam int id) {
+        logger.debug("looking for a car with id: " + id);
+
+        return carService.getCarById(id);
     }
 }

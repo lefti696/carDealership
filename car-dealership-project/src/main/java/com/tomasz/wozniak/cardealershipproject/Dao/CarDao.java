@@ -28,9 +28,4 @@ public interface CarDao {
     void deleteCar(int id);
 
     int countAllCars();
-
-    /**
-     * Create sample database records
-     */
-    void createSampleDb();
 }

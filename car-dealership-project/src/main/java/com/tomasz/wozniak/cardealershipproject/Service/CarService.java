@@ -6,12 +6,16 @@ import java.util.List;
 
 public interface CarService {
 
-//    List<CarModel> getAllCars();
-//    int addCar(CarModel carModel);
-//    CarModel getCarByYear(int mfy);
-//    CarModel getCarById(int id);
-//    void updateCar(CarModel carModel);
-//    void deleteCar(int id);
-//    void createSampleDb();
+    List<CarModel> getAllCars();
+    int addCar(CarModel carModel);
+    CarModel getCarByYear(int mfy);
+    CarModel getCarById(int id);
+    void updateCar(CarModel carModel);
+    void deleteCar(int id);
+    int countAllCars();
+    /**
+     * Create sample database records
+     */
+    void createSampleDb();
 
 }
