@@ -23,6 +23,10 @@ public class CustomerActionsController {
         this.carService = carService;
     }
 
+//    root request mapping
+//    @RequestMapping("/")
+//    redirect cars/list
+
     @RequestMapping("/test")
     public CarData greeting(@RequestParam(value="color", defaultValue="Red") String color,
                             @RequestParam(value="make", defaultValue = "Ford") String make) {
