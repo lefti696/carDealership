@@ -5,9 +5,7 @@ import com.tomasz.wozniak.cardealershipproject.Service.CarService;
 import com.tomasz.wozniak.cardealershipproject.model.CarModel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +34,19 @@ public class CustomerActionsController {
         return firstCar;
     }
 
+    //short for @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+    @GetMapping("/getFirstCarFromDb")
+    public CarModel getFirstCarFromDb() {
+        logger.debug("getting first car from DB");
+        List<CarModel> allCars = carService.getAllCars();
+
+        CarModel carToReturn = allCars.get(0);
+        logger.debug("Found car: " + carToReturn.getColor() + " " + carToReturn.getMake());
+
+        return carToReturn;
+    }
+
     @RequestMapping("/listAllCars")
     public List<CarModel> listAllCars () {
         logger.debug("Listing all cars");
@@ -51,7 +62,7 @@ public class CustomerActionsController {
 
         return carService.countAllCars();
     }
-
+    //http://localhost:8080/findById?id=3
     @RequestMapping("/findById")
     public CarModel findCarByMfy (@RequestParam int id) {
         logger.debug("looking for a car with id: " + id);

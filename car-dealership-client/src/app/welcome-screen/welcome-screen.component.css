@@ -1,0 +1,24 @@
+.example-card {
+  max-width: 400px;
+}
+
+.center-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-button {
+  text-align:center;
+  margin:auto;
+}
+
+.stretch {
+  width:100%;
+  height:100%;
+}
+
+.login-button {
+  text-align: right;
+  padding: 10px;
+}

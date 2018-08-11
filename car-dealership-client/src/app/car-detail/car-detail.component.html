@@ -1,0 +1,13 @@
+<p>
+  {{helloCarDetails}}
+</p>
+
+<mat-card class="car-details-card">
+  <div *ngIf="aCar">
+
+    <h2>{{aCar.make}} Details</h2>
+    <div><span>color: </span>{{aCar.color}}</div>
+    <div><span>manufacture year: </span>{{aCar.mfy}}</div>
+
+  </div>
+</mat-card>
