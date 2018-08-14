@@ -6,14 +6,16 @@ import {CarDetailComponent} from './car-detail/car-detail.component';
 import {LoginComponent} from './login/login.component';
 import {LogoutComponent} from './logout/logout.component';
 import {SellerCarListComponent} from './seller-car-list/seller-car-list.component';
+import {SellerCarDetailComponent} from './seller-car-detail/seller-car-detail.component';
 
 const routes: Routes = [
   { path: 'car-list', component: CarListComponent },
   { path: 'details/:id', component: CarDetailComponent },
+  { path: 'seller/details/:id', component: SellerCarDetailComponent },
+  { path: 'dashboard', component: SellerCarListComponent },
   { path: 'welcome', component: WelcomeScreenComponent },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
-  { path: 'dashboard', component: SellerCarListComponent },
   { path: '', redirectTo: '/welcome', pathMatch: 'full' }
 ];
 

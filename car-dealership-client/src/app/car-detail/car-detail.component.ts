@@ -11,7 +11,7 @@ import {Location} from '@angular/common';
 })
 export class CarDetailComponent implements OnInit {
 
-  @Input() car: Car;
+  car: Car;
 
   constructor(
     private route: ActivatedRoute,

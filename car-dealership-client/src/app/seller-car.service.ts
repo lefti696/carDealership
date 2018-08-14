@@ -34,9 +34,19 @@ export class SellerCarService {
 
   /** GET car by id */
   getCarById(id: number): Observable<Car> {
-    this.log('Getting car for id ' + id);
+
+    const credentials = {
+      username: 'user',
+      password: 'password'
+    };
+    const headers = new HttpHeaders(credentials ? {
+      authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
+    } : {});
+
+    this.log('Getting car for id ' + id + ' for: {' + headers.keys() + ':' + headers.get('authorization'));
+
     const url = `${this.carSellerDealershipAppUrl}/getCarById/${id}`;
-    return this.http.get<Car>(url);
+    return this.http.get<Car>(url, {headers: headers});
   }
 
   authenticate(credentials, callback) {

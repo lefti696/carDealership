@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {SellerCarService} from '../seller-car.service';
 import {Router} from '@angular/router';
+import {Credentials} from '../credentials';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,7 @@ import {Router} from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  credentials = {username: '', password: ''};
+  credentials: Credentials = {username: '', password: ''};
 
   constructor(private sellerCarService: SellerCarService, private router: Router) { }
 

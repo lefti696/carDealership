@@ -1,10 +1,10 @@
 
 <div style="text-align:right" class="mat-title">
-  <h1>Seller Dashboard</h1>
+  <button mat-raised-button (click)="addNewCar()">Add new car for sale</button>
 </div>
 
 <div style="text-align:center" class="mat-title">
-  <h1>Available cars</h1>
+  <h3>You are currently selling</h3>
 </div>
 
 <ul class="list-of-cars">
@@ -23,7 +23,7 @@
       </mat-card-content>
 
       <mat-card-actions align="end">
-        <button mat-stroked-button color="accent" routerLink="/details/{{car.id}}">DETAILS</button>
+        <button mat-stroked-button color="accent" routerLink="/seller/details/{{car.id}}">DETAILS</button>
       </mat-card-actions>
     </mat-card>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Car} from '../../car';
 import {SellerCarService} from '../seller-car.service';
 
@@ -11,7 +11,8 @@ export class SellerCarListComponent implements OnInit {
 
   listOfCars: Car[];
 
-  constructor(private sellerCarService: SellerCarService) { }
+  constructor(private sellerCarService: SellerCarService) {
+  }
 
   ngOnInit() {
     this.getAllCars();
@@ -19,5 +20,9 @@ export class SellerCarListComponent implements OnInit {
 
   getAllCars(): void {
     this.sellerCarService.getAllCars().subscribe(dataFromService => this.listOfCars = dataFromService);
+  }
+
+  addNewCar(): void {
+
   }
 }

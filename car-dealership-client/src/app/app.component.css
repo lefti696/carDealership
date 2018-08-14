@@ -1,9 +1,6 @@
-.login-button {
-  text-align: right;
+.dashboard-button {
+  /*text-align: right;*/
   padding: 10px;
-}
-
-.logout-button {
-  text-align: right;
-  padding: 10px;
+  width: 100%;
+  float: right;
 }

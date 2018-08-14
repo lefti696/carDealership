@@ -1,0 +1,23 @@
+<!--<h4 mat-dialog-title>Please provide your username and password</h4>-->
+  <div mat-dialog-content>
+    <div style="text-align:center">
+      <mat-form-field appearance="outline">
+        <mat-label>Enter your login</mat-label>
+        <input matInput placeholder="Enter here" [(ngModel)]="credentials.username">
+        <mat-icon matSuffix>border_color</mat-icon>
+        <mat-hint>Hint</mat-hint>
+      </mat-form-field>
+      <p></p>
+      <mat-form-field appearance="outline">
+        <mat-label>Enter your password</mat-label>
+        <input matInput placeholder="Enter here" [(ngModel)]="credentials.password" [type]="hide ? 'password' : 'text'">
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+        <mat-hint>Hint</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div mat-dialog-actions align="center">
+      <button mat-button (click)="onNoClick()">Cancel</button>
+      <button mat-button [mat-dialog-close]="credentials" cdkFocusInitial>Login</button>
+  </div>

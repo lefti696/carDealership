@@ -14,6 +14,7 @@ import {SellerCarListComponent} from './seller-car-list/seller-car-list.componen
 import {LoginComponent} from './login/login.component';
 import {LogoutComponent} from './logout/logout.component';
 import {FormsModule} from '@angular/forms';
+import {LoginDialogComponent} from './login-dialog/login-dialog.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {FormsModule} from '@angular/forms';
     SellerCarDetailComponent,
     SellerCarListComponent,
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    LoginDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -34,6 +36,7 @@ import {FormsModule} from '@angular/forms';
     HttpClientModule,
     FormsModule
   ],
+  entryComponents: [LoginDialogComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
