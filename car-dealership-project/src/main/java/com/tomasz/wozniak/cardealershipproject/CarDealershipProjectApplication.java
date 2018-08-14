@@ -24,6 +24,7 @@ public class CarDealershipProjectApplication {
 
     /**
      * glabal CORS configuration
+     * all the domain that consume this api must be included in the allowed list
      *
      * @return
      */
@@ -34,6 +35,11 @@ public class CarDealershipProjectApplication {
         config.setAllowCredentials(true);
         config.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
         config.setAllowedMethods(Collections.singletonList("*"));
+//        config.addAllowedMethod("OPTIONS");
+//        config.addAllowedMethod("GET");
+//        config.addAllowedMethod("POST");
+//        config.addAllowedMethod("PUT");
+//        config.addAllowedMethod("DELETE");
         config.setAllowedHeaders(Collections.singletonList("*"));
         source.registerCorsConfiguration("/**", config);
         FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));

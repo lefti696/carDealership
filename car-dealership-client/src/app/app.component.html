@@ -1,1 +1,21 @@
+<div>
+  <button mat-stroked-button color="primary" routerLink="/welcome">Welcome screen</button>
+</div>
+
+{{isAuthenticated()}}
+
+<div [hidden]="!isAuthenticated()">
+  <p>user is authenticated</p>
+  <div class="logout-button">
+    <button mat-stroked-button color="primary" (click)="logout()">Logout</button>
+  </div>
+</div>
+
+<div [hidden]="isAuthenticated()">
+  <p>user is not authenticated</p>
+  <div class="login-button">
+    <button mat-raised-button (click)="login()">Seller dashboard</button>
+  </div>
+</div>
+
 <router-outlet></router-outlet>

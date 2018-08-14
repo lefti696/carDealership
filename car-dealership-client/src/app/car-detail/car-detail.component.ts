@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Car} from '../../car';
 import {CarOfferService} from '../car-offer.service';
+import {ActivatedRoute} from '@angular/router';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-car-detail',
@@ -9,24 +11,26 @@ import {CarOfferService} from '../car-offer.service';
 })
 export class CarDetailComponent implements OnInit {
 
-  aCar: Car;
+  @Input() car: Car;
 
-  helloCarDetails: string;
-
-  constructor(private carOfferService: CarOfferService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private location: Location,
+    private carOfferService: CarOfferService
+  ) {}
 
   ngOnInit() {
-    this.helloCarDetails = 'car details works !';
-    // this.getSampleCar();
-    this.getCarDetails(3);
+    this.getCarById();
   }
 
-  getSampleCar(): void {
-    this.carOfferService.getSampleCar().subscribe( carFromService => this.aCar = carFromService);
+  getCarById(): void {
+    const id = +this.route.snapshot.paramMap.get('id');
+    console.log('getting details for car with id: ' + id);
+    this.carOfferService.getCarById(id).subscribe(dataFromService => this.car = dataFromService);
   }
 
-  getCarDetails(id: number): void {
-    this.carOfferService.getCarDetails(id).subscribe(dataFromService => this.aCar = dataFromService);
+  goBack(): void {
+    this.location.back();
   }
 
 }

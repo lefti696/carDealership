@@ -1,11 +1,28 @@
-<p>
-  car-list works!
-</p>
 
-<div>
-  <button mat-stroked-button color="primary" routerLink="/welcome">Go back to welcome screen</button>
+<div style="text-align:center" class="mat-title">
+  <h1>Available cars</h1>
 </div>
 
-<app-car-detail></app-car-detail>
+  <ul class="list-of-cars">
+    <li *ngFor="let car of listOfCars" >
 
 
+      <mat-card class="car-details-card">
+        <mat-card-header>
+          <mat-card-title>{{car.make}} Details</mat-card-title>
+          <mat-card-subtitle>{{car.make}} Details</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div><span>color: </span>{{car.color}}</div>
+          <div><span>manufacture year: </span>{{car.mfy}}</div>
+        </mat-card-content>
+
+        <mat-card-actions align="end">
+          <button mat-stroked-button color="accent" routerLink="/details/{{car.id}}">DETAILS</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <br><br>
+    </li>
+  </ul>

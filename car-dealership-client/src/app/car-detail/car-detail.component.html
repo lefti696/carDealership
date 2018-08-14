@@ -1,13 +1,17 @@
-<p>
-  {{helloCarDetails}}
-</p>
+<br>
+
+<div>
+  <button mat-raised-button color="primary" (click)="goBack()">go back to list</button>
+</div>
+
 
 <mat-card class="car-details-card">
-  <div *ngIf="aCar">
+  <div *ngIf="car">
 
-    <h2>{{aCar.make}} Details</h2>
-    <div><span>color: </span>{{aCar.color}}</div>
-    <div><span>manufacture year: </span>{{aCar.mfy}}</div>
+    <h2>{{car.make}} Details</h2>
+    <div><span>color: </span>{{car.color}}</div>
+    <div><span>manufacture year: </span>{{car.mfy}}</div>
 
   </div>
 </mat-card>
+

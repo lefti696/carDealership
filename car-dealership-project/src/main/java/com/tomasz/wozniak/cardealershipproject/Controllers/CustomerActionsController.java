@@ -34,9 +34,8 @@ public class CustomerActionsController {
         return firstCar;
     }
 
-    //short for @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    @GetMapping("/getFirstCarFromDb")
+    @RequestMapping("/getFirstCarFromDb")
     public CarModel getFirstCarFromDb() {
         logger.debug("getting first car from DB");
         List<CarModel> allCars = carService.getAllCars();
@@ -47,9 +46,9 @@ public class CustomerActionsController {
         return carToReturn;
     }
 
-    @RequestMapping("/listAllCars")
-    public List<CarModel> listAllCars () {
-        logger.debug("Listing all cars");
+    @RequestMapping("/getAllCars")
+    public List<CarModel> getAllCars () {
+        logger.debug("Listing all cars for customer.");
 
         List<CarModel> allCars = carService.getAllCars();
 
@@ -58,15 +57,17 @@ public class CustomerActionsController {
 
     @RequestMapping("/howManyCars")
     public int howManyCars () {
-        logger.debug("Counting all available cars.");
+        logger.debug("Counting all available cars for customer.");
 
         return carService.countAllCars();
     }
-    //http://localhost:8080/findById?id=3
-    @RequestMapping("/findById")
-    public CarModel findCarByMfy (@RequestParam int id) {
-        logger.debug("looking for a car with id: " + id);
+
+    @RequestMapping(value = "/getCarById/{id}", method = RequestMethod.GET)
+    public CarModel getCarById (@PathVariable("id") int id) {
+        logger.debug("looking for a car with id: " + id + " for customer.");
 
         return carService.getCarById(id);
     }
+
+
 }

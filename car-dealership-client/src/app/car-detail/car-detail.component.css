@@ -1,5 +1,7 @@
 .car-details-card{
-  max-width: 400px;
+  /*max-width: 800px;*/
+  width: 50%;
+  margin: 10px auto;
 }
 
 .car-details-card:hover {

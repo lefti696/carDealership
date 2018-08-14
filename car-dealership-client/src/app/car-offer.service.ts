@@ -1,45 +1,35 @@
 import {Injectable} from '@angular/core';
 import {Car} from '../car';
-import {CAR} from '../mock-car';
-import {Observable, of} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarOfferService {
 
-  private carDealershipAppUrl = '//localhost:8080/getFirstCarFromDb';
+  private carDealershipAppUrl = '//localhost:8080';
 
   constructor(private http: HttpClient) { }
 
-  getSampleCar(): Observable<Car> {
-    return of(CAR);
+  /** GET sample car */
+  getNumberOfAvailableCars(): Observable<number> {
+    console.log('getting number of available cars');
+    const url = `${this.carDealershipAppUrl}/howManyCars`;
+    return this.http.get<number>(url);
+  }
+
+  /** GET all available cars */
+  getAllCars(): Observable<Car[]> {
+    console.log('getting all available cars');
+    const url = `${this.carDealershipAppUrl}/getAllCars`;
+    return this.http.get<Car[]>(url);
   }
 
   /** GET car by id */
-  getCarDetails(id: number): Observable<Car> {
+  getCarById(id: number): Observable<Car> {
     console.log('getting car for id ' + id);
-    // const url = `${this.carDealershipAppUrl}/getFirstCarFromDb`;
-    return this.http.get<Car>(this.carDealershipAppUrl);
+    const url = `${this.carDealershipAppUrl}/getCarById/${id}`;
+    return this.http.get<Car>(url);
   }
-
-  // getCarDetails(id: number): Observable<Car> {
-  //   console.log('getting car for id ' + id);
-  //   return of(CAR);
-  // }
-
-  // /** GET hero by id. Will 404 if id not found */
-  // getHero(id: number): Observable<Hero> {
-  //   const url = `${this.heroesUrl}/${id}`;
-  //   return this.http.get<Hero>(url).pipe(
-  //     tap(_ => this.log(`fetched hero id=${id}`)),
-  //     catchError(this.handleError<Hero>(`getHero id=${id}`))
-  //   );
-  // }
-
 }
