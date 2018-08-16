@@ -4,7 +4,12 @@
 </div>
 
 <div style="text-align:center" class="mat-title">
-  <h3>You are currently selling</h3>
+  <div [hidden]="isEmptyList()">
+      <h3>You are currently selling</h3>
+  </div>
+  <div [hidden]="!isEmptyList()">
+      <h3>{{emptyListMsg}}</h3>
+  </div>
 </div>
 
 <ul class="list-of-cars">

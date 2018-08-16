@@ -56,12 +56,12 @@ public class CarServiceImpl implements CarService {
     @Override
     public void createSampleDb() {
 
-        logger.info("Id of created car is " + addCar(new CarModel("red", "ferrari", 2018)));
-        logger.info("Id of created car is " + addCar(new CarModel("gray", "seat", 2013)));
-        logger.info("Id of created car is " + addCar(new CarModel("blac", "volvo", 2010)));
-        logger.info("Id of created car is " + addCar(new CarModel("silver", "ford", 2004)));
-        logger.info("Id of created car is " + addCar(new CarModel("cherry", "toyota", 2014)));
-        logger.info("Id of created car is " + addCar(new CarModel("purple", "nissan", 2015)));
+        logger.info("Id of created car is " + addCar(new CarModel("red", "Ferrari", "Italia", 2018)));
+        logger.info("Id of created car is " + addCar(new CarModel("gray", "Seat", "Ibiza", 2013)));
+        logger.info("Id of created car is " + addCar(new CarModel("blac", "Volvo", "XC60", 2010)));
+        logger.info("Id of created car is " + addCar(new CarModel("silver", "Ford", "Focus", 2004)));
+        logger.info("Id of created car is " + addCar(new CarModel("cherry", "Toyota", "Yaris", 2014)));
+        logger.info("Id of created car is " + addCar(new CarModel("purple", "Nissan", "Micra", 2015)));
 
         logger.info(carDao.countAllCars() + " records created.");
     }

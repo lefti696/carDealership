@@ -2,3 +2,14 @@
 .button-row a {
   margin-right: 8px;
 }
+
+.car-details-card{
+  /*max-width: 800px;*/
+  width: 50%;
+  margin: 10px auto;
+}
+
+.car-details-card:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  background-color: #e8eaf6;
+}

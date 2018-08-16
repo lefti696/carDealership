@@ -4,6 +4,8 @@ import com.tomasz.wozniak.cardealershipproject.Service.CarService;
 import com.tomasz.wozniak.cardealershipproject.model.CarModel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +27,7 @@ public class SellerActionsController {
         logger.debug("Listing all cars for seller");
 
         List<CarModel> allCars = carService.getAllCars();
-
+        logger.debug("Found: " + allCars.size() + " cars in db.");
         return allCars;
     }
 
@@ -42,6 +44,37 @@ public class SellerActionsController {
 
         return carService.getCarById(id);
     }
+
+    @DeleteMapping("/deleteCar/{id}")
+    public ResponseEntity<Void> deleteCar(@PathVariable("id") Integer id) {
+        logger.debug("deleting a car with id: " + id);
+        carService.deleteCar(id);
+
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/addNewCar")
+    public ResponseEntity<Void> addNewCar(@RequestBody CarModel carModel) {
+        logger.debug("adding a new car: " + carModel.toString());
+
+        int newCarId = carService.addCar(carModel);
+        logger.debug("successfully created with id: " + newCarId);
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/updateCar")
+    public ResponseEntity<CarModel> updateCar(@RequestBody CarModel carModel) {
+        logger.debug("updating a car: " + carModel.toString());
+
+        carService.updateCar(carModel);
+        return new ResponseEntity<CarModel>(carModel, HttpStatus.OK);
+    }
+
+    /**
+     * SOME OTHER METHODS FOR TESTING
+     *
+     * @return
+     */
 
     @ResponseBody
     @RequestMapping("/locked")

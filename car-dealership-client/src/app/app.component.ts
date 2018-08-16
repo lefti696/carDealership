@@ -65,9 +65,7 @@ export class AppComponent {
       console.log('The dialog was closed');
       // check if username and password are filled with data
       if (null != credentialsFromDialog && credentialsFromDialog.username && credentialsFromDialog.password) {
-        console.log('Username from dialog: ' + credentialsFromDialog.username);
-        // to REMOVE
-        console.log('Password from dialog: ' + credentialsFromDialog.password);
+        console.log('Submitting given username and password.');
         this.credentials.username = credentialsFromDialog.username;
         this.credentials.password = credentialsFromDialog.password;
         this.login();

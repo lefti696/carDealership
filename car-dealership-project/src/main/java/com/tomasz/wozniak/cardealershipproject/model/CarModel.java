@@ -16,14 +16,25 @@ public class CarModel {
     private String make;
 
     @Column
+    private String model;
+
+    @Column
     private int mfy;
 
-    public CarModel() {}
+    public CarModel() {
+    }
 
-    public CarModel(String color, String make, int mfy) {
+    public CarModel(String color, String make, String model, int mfy) {
         this.color = color;
         this.make = make;
+        this.model = model;
         this.mfy = mfy;
+    }
+
+    @Override
+    public String toString() {
+        return "CarModel. Id: " + this.getId() + " Make: " + this.getMake() + " Model: " + this.getModel()
+                + " Color: " + this.getColor() + " Year: " + this.getMfy();
     }
 
     public int getId() {
@@ -32,6 +43,14 @@ public class CarModel {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
     }
 
     public String getColor() {
