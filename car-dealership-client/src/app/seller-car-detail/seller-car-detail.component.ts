@@ -6,6 +6,7 @@ import {Car} from '../../car';
 import {log} from 'util';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {CarImage} from '../../carImage';
+import {base64ToBlob} from '../../base64ToBlob';
 
 @Component({
   selector: 'app-seller-car-detail',
@@ -24,7 +25,7 @@ export class SellerCarDetailComponent implements OnInit {
     private router: Router,
     private location: Location,
     private sellerCarService: SellerCarService,
-    private sanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer
   ) {
   }
 
@@ -48,10 +49,10 @@ export class SellerCarDetailComponent implements OnInit {
             this.log('Conv car image from server');
 
             // const blob = new Blob([carImage.data], { type: carImage.fileType });
-            const blob = this.base64ToBlob(carImage.data, carImage.fileType);
+            const blob = base64ToBlob(carImage.data, carImage.fileType);
             console.log(blob);
 
-            this.carImgUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+            this.carImgUrl = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
           }
           this.matCardTitle = 'Details of:';
           this.isEditMode = true;
@@ -71,24 +72,6 @@ export class SellerCarDetailComponent implements OnInit {
       this.car = newCar;
       this.isEditMode = false;
     }
-  }
-
-  base64ToBlob(b64Data: string, contentType: string): Blob {
-    const sliceSize = 512;
-    b64Data = b64Data.replace(/\s/g, '');
-    const byteCharacters = atob(b64Data);
-    const byteArrays = [];
-    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-      const byteNumbers = new Array(slice.length);
-      for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      byteArrays.push(byteArray);
-    }
-    return new Blob(byteArrays, {type: contentType});
   }
 
   inEditMode(): boolean {
@@ -138,7 +121,7 @@ export class SellerCarDetailComponent implements OnInit {
         this.log('file type: ' + file.type);
         this.log('file size: ' + file.size);
         // this.car.image = file;
-        this.carImgUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
+        this.carImgUrl = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
 
         // upload file to server - PLACEHOLDER
         this.sellerCarService.upload(file, this.car.id).subscribe(

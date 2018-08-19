@@ -9,13 +9,29 @@
 
       <mat-card class="car-details-card">
         <mat-card-header>
-          <mat-card-title>{{car.make}} Details</mat-card-title>
-          <mat-card-subtitle>{{car.make}} Details</mat-card-subtitle>
+          <mat-card-title><h2>{{car.make}}</h2></mat-card-title>
+          <mat-card-subtitle><h2>{{car.model}}</h2></mat-card-subtitle>
         </mat-card-header>
 
         <mat-card-content>
-          <div><span>color: </span>{{car.color}}</div>
-          <div><span>manufacture year: </span>{{car.mfy}}</div>
+
+          <mat-grid-list cols="2" rowHeight="2:1">
+            <!--left side -->
+            <mat-grid-tile>
+              <mat-list>
+                <mat-list-item>Color: {{car.color}}</mat-list-item>
+                <mat-list-item>Mfe year: {{car.mfy}}</mat-list-item>
+              </mat-list>
+            </mat-grid-tile>
+
+            <!--right side-->
+            <mat-grid-tile>
+              <div *ngIf="car.carImage" align="center">
+                <img [src]="car.carImage.carImgUrl" style="width: 70%; height: 70%">
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+
         </mat-card-content>
 
         <mat-card-actions align="end">

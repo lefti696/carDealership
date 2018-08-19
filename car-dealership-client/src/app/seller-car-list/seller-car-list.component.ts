@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {Car} from '../../car';
 import {SellerCarService} from '../seller-car.service';
 import {Router} from '@angular/router';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {base64ToBlob} from '../../base64ToBlob';
+import {CarImage} from '../../carImage';
 
 @Component({
   selector: 'app-seller-car-list',
@@ -13,7 +16,7 @@ export class SellerCarListComponent implements OnInit {
   listOfCars: Car[];
   emptyListMsg: string;
 
-  constructor(private sellerCarService: SellerCarService, private router: Router) {
+  constructor(private sellerCarService: SellerCarService, private router: Router, private domSanitizer: DomSanitizer) {
   }
 
   ngOnInit() {
@@ -33,6 +36,8 @@ export class SellerCarListComponent implements OnInit {
       this.listOfCars = dataFromService;
       if (null != dataFromService && dataFromService.length === 0) {
         this.emptyListMsg = 'Currently there are no cars for sale. Please add any.';
+      } else {
+        this.fillImages();
       }
     });
   }
@@ -44,5 +49,17 @@ export class SellerCarListComponent implements OnInit {
 
   addNewCar() {
     this.router.navigateByUrl('/seller/details/-1');
+  }
+
+  fillImages() {
+    for (const car of this.listOfCars) {
+      if (null != car.carImage) {
+        const blob = base64ToBlob(car.carImage.data, car.carImage.fileType);
+        car.carImage.carImgUrl = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+      } else {
+        car.carImage = new CarImage();
+        car.carImage.carImgUrl = '/src/assets/img/car-icons.gif';
+      }
+    }
   }
 }
