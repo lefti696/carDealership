@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {Car} from '../car';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpRequest} from '@angular/common/http';
 import {catchError, tap} from 'rxjs/operators';
 
 const predefinedCredentials = {
@@ -11,7 +11,6 @@ const predefinedCredentials = {
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json',
     authorization: 'Basic ' + btoa(predefinedCredentials.username + ':' + predefinedCredentials.password)
   })
 };
@@ -58,18 +57,18 @@ export class SellerCarService {
   }
 
   /** PUT: update the car on the server */
-  updateCar (car: Car): Observable<any> {
+  updateCar(car: Car): Observable<any> {
 
     const url = `${this.carSellerDealershipAppUrl}/updateCar`;
 
     return this.http.put(url, car, httpOptions).pipe(
       tap(_ => this.log(`updated car id=${car.id}`)),
-      catchError(this.handleError<any>('updateHero'))
+      catchError(this.handleError<any>('updateCar'))
     );
   }
 
   /** POST: add a new hero to the server */
-  addNewCar (car: Car): Observable<Car> {
+  addNewCar(car: Car): Observable<Car> {
     const url = `${this.carSellerDealershipAppUrl}/addNewCar`;
 
     return this.http.post<Car>(url, car, httpOptions).pipe(
@@ -96,6 +95,26 @@ export class SellerCarService {
     });
   }
 
+  /**
+   * UPLOAD FILE HANDLING
+   */
+
+  public upload(file: File, carId: number): Observable<any> {
+    this.log('sending file');
+
+    // return this.http.post<Car>(url, car, httpOptions);
+
+    // create destination url
+    const url = `${this.carSellerDealershipAppUrl}/upload/${carId}`;
+
+    // create a new multipart-form for every file
+    const formData: FormData = new FormData();
+    formData.append('file', file, file.name);
+
+    // send the http-request and subscribe for progress-updates
+    return this.http.post(url, formData, httpOptions);
+  }
+
   logout(): void {
     this.log('Logout requested.');
     const url = `${this.baseCarDealershipAppUrl}/logout`;
@@ -117,7 +136,7 @@ export class SellerCarService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T> (operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure

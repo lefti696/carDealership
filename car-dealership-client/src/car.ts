@@ -1,3 +1,4 @@
+import {CarImage} from './carImage';
 
 export class Car {
 
@@ -6,6 +7,7 @@ export class Car {
   make: string;
   model: string;
   mfy: number;
+  carImage: CarImage;
 
   // constructor(
   //   public id: number,

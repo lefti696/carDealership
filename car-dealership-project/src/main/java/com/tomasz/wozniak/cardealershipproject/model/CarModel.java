@@ -21,6 +21,13 @@ public class CarModel {
     @Column
     private int mfy;
 
+//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "vehicle", cascade = CascadeType.ALL)
+//    @PrimaryKeyJoinColumn
+
+    @OneToOne
+    @JoinColumn(name = "car_image_id", unique = true)
+    private CarPictureModel carPictureModel;
+
     public CarModel() {
     }
 
@@ -31,11 +38,21 @@ public class CarModel {
         this.mfy = mfy;
     }
 
+    public CarModel(String color, String make, String model, int mfy, CarPictureModel carPictureModel) {
+        this.color = color;
+        this.make = make;
+        this.model = model;
+        this.mfy = mfy;
+        this.carPictureModel = carPictureModel;
+    }
+
     @Override
     public String toString() {
         return "CarModel. Id: " + this.getId() + " Make: " + this.getMake() + " Model: " + this.getModel()
                 + " Color: " + this.getColor() + " Year: " + this.getMfy();
     }
+
+
 
     public int getId() {
         return id;
@@ -75,5 +92,13 @@ public class CarModel {
 
     public void setMfy(int mfy) {
         this.mfy = mfy;
+    }
+
+    public CarPictureModel getCarPictureModel() {
+        return carPictureModel;
+    }
+
+    public void setCarPictureModel(CarPictureModel carPictureModel) {
+        this.carPictureModel = carPictureModel;
     }
 }

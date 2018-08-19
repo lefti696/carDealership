@@ -1,13 +1,16 @@
 package com.tomasz.wozniak.cardealershipproject.Controllers;
 
+import com.tomasz.wozniak.cardealershipproject.Items.CarData;
+import com.tomasz.wozniak.cardealershipproject.Items.CarImage;
 import com.tomasz.wozniak.cardealershipproject.Service.CarService;
-import com.tomasz.wozniak.cardealershipproject.model.CarModel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -23,23 +26,23 @@ public class SellerActionsController {
     }
 
     @RequestMapping("/getAllCars")
-    public List<CarModel> getAllCars () {
+    public List<CarData> getAllCars() {
         logger.debug("Listing all cars for seller");
 
-        List<CarModel> allCars = carService.getAllCars();
+        List<CarData> allCars = carService.getAllCars();
         logger.debug("Found: " + allCars.size() + " cars in db.");
         return allCars;
     }
 
     @RequestMapping("/howManyCars")
-    public int howManyCars () {
+    public int howManyCars() {
         logger.debug("Counting all available cars.");
 
         return carService.countAllCars();
     }
 
     @RequestMapping(value = "/getCarById/{id}", method = RequestMethod.GET)
-    public CarModel getCarById (@PathVariable("id") int id) {
+    public CarData getCarById(@PathVariable("id") int id) {
         logger.debug("looking for a car with id: " + id);
 
         return carService.getCarById(id);
@@ -54,21 +57,60 @@ public class SellerActionsController {
     }
 
     @PostMapping("/addNewCar")
-    public ResponseEntity<Void> addNewCar(@RequestBody CarModel carModel) {
-        logger.debug("adding a new car: " + carModel.toString());
+    public ResponseEntity<Void> addNewCar(@RequestBody CarData carData) {
+        logger.debug("adding a new car: " + carData.toString());
 
-        int newCarId = carService.addCar(carModel);
+        int newCarId = carService.addCar(carData);
         logger.debug("successfully created with id: " + newCarId);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
     @PutMapping("/updateCar")
-    public ResponseEntity<CarModel> updateCar(@RequestBody CarModel carModel) {
-        logger.debug("updating a car: " + carModel.toString());
+    public ResponseEntity<CarData> updateCar(@RequestBody CarData carData) {
+        logger.debug("updating a car: " + carData.toString());
 
-        carService.updateCar(carModel);
-        return new ResponseEntity<CarModel>(carModel, HttpStatus.OK);
+        carService.updateCar(carData);
+        return new ResponseEntity<CarData>(carData, HttpStatus.OK);
     }
+
+    @PostMapping("/upload/{carId}")
+    public ResponseEntity<Integer> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable("carId") int carId) {
+        logger.debug("Single file upload!");
+        if (file.isEmpty()) {
+            logger.debug("uploaded file is empty");
+        } else {
+            try {
+                logger.debug("Received filename: " + file.getOriginalFilename() + " of size: " + file.getSize());
+                CarData car = carService.getCarById(carId);
+                logger.debug("For car id: " + car.getId());
+
+                CarImage carImage = new CarImage();
+                carImage.setFileName(file.getOriginalFilename());
+                carImage.setFileType(file.getContentType());
+                carImage.setData(file.getBytes());
+
+                int imageId = carService.addImage(carImage);
+                logger.debug("Uploaded image with id: " + imageId);
+
+                car.setCarImage(carImage);
+                carService.updateCar(car);
+
+                logger.debug("Car image updated.");
+
+                return new ResponseEntity<>(imageId, HttpStatus.CREATED);
+
+            } catch (IOException e) {
+                logger.debug("IOException: " + e);
+            }
+        }
+        return new ResponseEntity<>(-1, HttpStatus.METHOD_FAILURE);
+    }
+
+//    @GetMapping("/download/{carId}")
+//    public ResponseEntity<?> uploadFile(@PathVariable("carId") int carId) {
+//        logger.debug("Requested);
+//
+//    }
 
     /**
      * SOME OTHER METHODS FOR TESTING
@@ -78,11 +120,11 @@ public class SellerActionsController {
 
     @ResponseBody
     @RequestMapping("/locked")
-    public CarModel getFirstCarFromDb() {
+    public CarData getFirstCarFromDb() {
         logger.debug("getting first car from DB");
-        List<CarModel> allCars = carService.getAllCars();
+        List<CarData> allCars = carService.getAllCars();
 
-        CarModel carToReturn = allCars.get(0);
+        CarData carToReturn = allCars.get(0);
         logger.debug("Found car: " + carToReturn.getColor() + " " + carToReturn.getMake());
 
         return carToReturn;
@@ -90,11 +132,11 @@ public class SellerActionsController {
 
     @ResponseBody
     @RequestMapping("/unlocked")
-    public CarModel getSecondCarFromDb() {
+    public CarData getSecondCarFromDb() {
         logger.debug("getting first car from DB");
-        List<CarModel> allCars = carService.getAllCars();
+        List<CarData> allCars = carService.getAllCars();
 
-        CarModel carToReturn = allCars.get(2);
+        CarData carToReturn = allCars.get(2);
         logger.debug("Found car: " + carToReturn.getColor() + " " + carToReturn.getMake());
 
         return carToReturn;

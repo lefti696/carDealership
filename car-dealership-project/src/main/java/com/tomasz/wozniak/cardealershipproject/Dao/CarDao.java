@@ -1,6 +1,8 @@
 package com.tomasz.wozniak.cardealershipproject.Dao;
 
 import com.tomasz.wozniak.cardealershipproject.model.CarModel;
+import com.tomasz.wozniak.cardealershipproject.model.CarPictureModel;
+
 import java.util.List;
 
 public interface CarDao {
@@ -25,7 +27,13 @@ public interface CarDao {
 
     void updateCar(CarModel carModel);
 
+    void updateCarImage(CarPictureModel carPictureModel);
+
     void deleteCar(int id);
 
     int countAllCars();
+
+    int addImage(CarPictureModel carPictureModel);
+
+    CarPictureModel getImageById(int id);
 }

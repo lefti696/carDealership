@@ -2,6 +2,7 @@ package com.tomasz.wozniak.cardealershipproject.Dao.Impl;
 
 import com.tomasz.wozniak.cardealershipproject.Dao.CarDao;
 import com.tomasz.wozniak.cardealershipproject.model.CarModel;
+import com.tomasz.wozniak.cardealershipproject.model.CarPictureModel;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
@@ -44,11 +45,36 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public void updateCar(CarModel carModel) {
-        CarModel aCar = getCarByYear(carModel.getId());
-        aCar.setMake(carModel.getMake());
-        aCar.setColor(carModel.getColor());
-        aCar.setMfy(carModel.getMfy());
+    public void updateCar(CarModel updatedCarModel) {
+        CarModel carToUpdate = getCarById(updatedCarModel.getId());
+        carToUpdate.setMake(updatedCarModel.getMake());
+        carToUpdate.setModel(updatedCarModel.getModel());
+        carToUpdate.setColor(updatedCarModel.getColor());
+        carToUpdate.setMfy(updatedCarModel.getMfy());
+
+        CarPictureModel updatedCarPictureModel = updatedCarModel.getCarPictureModel();
+
+        if (null != carToUpdate.getCarPictureModel() && null != updatedCarPictureModel) {
+            //update picture
+            updatedCarPictureModel.setId(carToUpdate.getCarPictureModel().getId());
+            updateCarImage(updatedCarPictureModel);
+        }
+        if (null == carToUpdate.getCarPictureModel() && null != updatedCarPictureModel) {
+            //upload new picture
+            addImage(updatedCarPictureModel);
+            carToUpdate.setCarPictureModel(updatedCarPictureModel);
+        }
+        entityManager.flush();
+    }
+
+    @Override
+    public void updateCarImage(CarPictureModel updatedCarPicture) {
+        CarPictureModel carPictureToUpdate = getImageById(updatedCarPicture.getId());
+
+        carPictureToUpdate.setFileName(updatedCarPicture.getFileName());
+        carPictureToUpdate.setFileType(updatedCarPicture.getFileType());
+        carPictureToUpdate.setData(updatedCarPicture.getData());
+
         entityManager.flush();
     }
 
@@ -62,4 +88,18 @@ public class CarDaoImpl implements CarDao {
         String hql = "select count(c) from cars c";
         return Integer.valueOf(entityManager.createQuery(hql).getResultList().get(0).toString());
     }
+
+    @Override
+    public int addImage(CarPictureModel carPictureModel) {
+        entityManager.persist(carPictureModel);
+        entityManager.flush();
+        return carPictureModel.getId();
+    }
+
+    @Override
+    public CarPictureModel getImageById(int id) {
+        return entityManager.find(CarPictureModel.class, id);
+    }
+
+
 }

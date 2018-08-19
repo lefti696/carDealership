@@ -28,6 +28,16 @@
         <input matInput placeholder="Manufacture year:" [(ngModel)]="car.mfy">
       </mat-form-field>
 
+      <br>
+      <img [src]="carImgUrl" style="width: 50%; height: 50%">
+
+      <!--file upload-->
+      <br>
+      <div [hidden]="inEditMode()">
+        <input id="input-file-id" multiple type="file" (change)="onFileChange($event)"/>
+      </div>
+      <label for="input-file-id" class="mat-button mat-raised-button">Change car image</label>
+
     </mat-card-content>
 
     <mat-card-actions align="center">

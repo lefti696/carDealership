@@ -2,12 +2,47 @@ package com.tomasz.wozniak.cardealershipproject.Items;
 
 public class CarData {
 
+    private int id;
+
     private String color;
+
     private String make;
 
-    public CarData(String color, String make) {
+    private String model;
+
+    private int mfy;
+
+    private CarImage carImage;
+
+    public CarData() {}
+
+    public CarData(String color, String make, String model, int mfy) {
         this.color = color;
         this.make = make;
+        this.model = model;
+        this.mfy = mfy;
+    }
+
+    public CarData(String color, String make, String model, int mfy, CarImage carImage) {
+        this.color = color;
+        this.make = make;
+        this.model = model;
+        this.mfy = mfy;
+        this.carImage = carImage;
+    }
+
+    @Override
+    public String toString() {
+        return "CarModel. Id: " + this.getId() + " Make: " + this.getMake() + " Model: " + this.getModel()
+                + " Color: " + this.getColor() + " Year: " + this.getMfy();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getColor() {
@@ -24,5 +59,29 @@ public class CarData {
 
     public void setMake(String make) {
         this.make = make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public int getMfy() {
+        return mfy;
+    }
+
+    public void setMfy(int mfy) {
+        this.mfy = mfy;
+    }
+
+    public CarImage getCarImage() {
+        return carImage;
+    }
+
+    public void setCarImage(CarImage carImage) {
+        this.carImage = carImage;
     }
 }

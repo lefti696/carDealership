@@ -2,7 +2,6 @@ package com.tomasz.wozniak.cardealershipproject.Controllers;
 
 import com.tomasz.wozniak.cardealershipproject.Items.CarData;
 import com.tomasz.wozniak.cardealershipproject.Service.CarService;
-import com.tomasz.wozniak.cardealershipproject.model.CarModel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,44 +25,46 @@ public class CustomerActionsController {
 //    redirect cars/list
 
     @RequestMapping("/test")
-    public CarData greeting(@RequestParam(value="color", defaultValue="Red") String color,
-                            @RequestParam(value="make", defaultValue = "Ford") String make) {
+    public CarData greeting(@RequestParam(value = "color", defaultValue = "Red") String color,
+                            @RequestParam(value = "make", defaultValue = "Ford") String make,
+                            @RequestParam(value = "model", defaultValue = "Focus") String model,
+                            @RequestParam(value = "mfy", defaultValue = "2004") String mfy) {
 
-        CarData firstCar = new CarData(color, make);
+        CarData firstCar = new CarData(color, make, model, Integer.valueOf(mfy));
 
         return firstCar;
     }
 
     @ResponseBody
     @RequestMapping("/getFirstCarFromDb")
-    public CarModel getFirstCarFromDb() {
+    public CarData getFirstCarFromDb() {
         logger.debug("getting first car from DB");
-        List<CarModel> allCars = carService.getAllCars();
+        List<CarData> allCars = carService.getAllCars();
 
-        CarModel carToReturn = allCars.get(0);
+        CarData carToReturn = allCars.get(0);
         logger.debug("Found car: " + carToReturn.getColor() + " " + carToReturn.getMake());
 
         return carToReturn;
     }
 
     @RequestMapping("/getAllCars")
-    public List<CarModel> getAllCars () {
+    public List<CarData> getAllCars() {
         logger.debug("Listing all cars for customer.");
 
-        List<CarModel> allCars = carService.getAllCars();
+        List<CarData> allCars = carService.getAllCars();
 
         return allCars;
     }
 
     @RequestMapping("/howManyCars")
-    public int howManyCars () {
+    public int howManyCars() {
         logger.debug("Counting all available cars for customer.");
 
         return carService.countAllCars();
     }
 
     @RequestMapping(value = "/getCarById/{id}", method = RequestMethod.GET)
-    public CarModel getCarById (@PathVariable("id") int id) {
+    public CarData getCarById(@PathVariable("id") int id) {
         logger.debug("looking for a car with id: " + id + " for customer.");
 
         return carService.getCarById(id);
