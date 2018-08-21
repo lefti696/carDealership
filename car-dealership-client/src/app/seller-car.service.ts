@@ -4,16 +4,17 @@ import {Car} from '../car';
 import {HttpClient, HttpHeaders, HttpRequest} from '@angular/common/http';
 import {catchError, tap} from 'rxjs/operators';
 
-const predefinedCredentials = {
-  username: 'user',
-  password: 'password'
-};
+// const predefinedCredentials = {
+//   username: 'user',
+//   password: 'password'
+// };
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    authorization: 'Basic ' + btoa(predefinedCredentials.username + ':' + predefinedCredentials.password)
-  })
-};
+
+// const httpOptions = {
+//   headers: new HttpHeaders({
+//     authorization: 'Basic ' + btoa(predefinedCredentials.username + ':' + predefinedCredentials.password)
+//   })
+// };
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,9 @@ const httpOptions = {
 export class SellerCarService {
 
   authenticated = false;
+
+  httpOptions = {
+  };
 
   private baseCarDealershipAppUrl = '//localhost:8080';
   private carSellerDealershipAppUrl = '//localhost:8080/seller';
@@ -32,18 +36,19 @@ export class SellerCarService {
   /** GET all available cars */
   getAllCars(): Observable<Car[]> {
 
-    this.log('Getting all available cars. for: {' + httpOptions.headers.keys() + ':' + httpOptions.headers.get('authorization'));
+    this.log('Getting all available cars. for: ');
+    console.log(this.httpOptions);
     const url = `${this.carSellerDealershipAppUrl}/getAllCars`;
-    return this.http.get<Car[]>(url, httpOptions);
+    return this.http.get<Car[]>(url, this.httpOptions);
   }
 
   /** GET car by id */
   getCarById(id: number): Observable<Car> {
 
-    this.log('Getting car for id ' + id + ' for: {' + httpOptions.headers.keys() + ':' + httpOptions.headers.get('authorization'));
-
+    this.log('Getting car for id ' + id + ' for: ');
+    console.log(this.httpOptions);
     const url = `${this.carSellerDealershipAppUrl}/getCarById/${id}`;
-    return this.http.get<Car>(url, httpOptions);
+    return this.http.get<Car>(url, this.httpOptions);
   }
 
   /** DELETE: delete the car from the server
@@ -53,7 +58,7 @@ export class SellerCarService {
     this.log(id.toString());
     const url = `${this.carSellerDealershipAppUrl}/deleteCar/${id}`;
 
-    return this.http.delete<Car>(url, httpOptions);
+    return this.http.delete<Car>(url, this.httpOptions);
   }
 
   /** PUT: update the car on the server */
@@ -61,7 +66,7 @@ export class SellerCarService {
 
     const url = `${this.carSellerDealershipAppUrl}/updateCar`;
 
-    return this.http.put(url, car, httpOptions).pipe(
+    return this.http.put(url, car, this.httpOptions).pipe(
       tap(_ => this.log(`updated car id=${car.id}`)),
       catchError(this.handleError<any>('updateCar'))
     );
@@ -71,24 +76,30 @@ export class SellerCarService {
   addNewCar(car: Car): Observable<Car> {
     const url = `${this.carSellerDealershipAppUrl}/addNewCar`;
 
-    return this.http.post<Car>(url, car, httpOptions).pipe(
+    return this.http.post<Car>(url, car, this.httpOptions).pipe(
       catchError(this.handleError<Car>('addHero'))
     );
   }
 
   authenticate(credentials, callback) {
+    const predefinedCredentials = btoa(credentials.username + ':' + credentials.password);
     const headers = new HttpHeaders(credentials ? {
-      authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password)
+      authorization: 'Basic ' + predefinedCredentials
     } : {});
-
     const url = `${this.baseCarDealershipAppUrl}/user`;
     this.log('Checking user authentication on server...');
     this.http.get(url, {headers: headers}).subscribe(response => {
       if (response['name']) {
         this.authenticated = true;
+        this.httpOptions = {
+          headers: new HttpHeaders({
+            authorization: 'Basic ' + predefinedCredentials
+          })
+        };
         this.log('User {' + response['name'] + '} is authenticated to server.');
       } else {
         this.authenticated = false;
+        this.httpOptions = null;
         this.log('User is NOT authenticated to server.');
       }
       return callback && callback();
@@ -112,7 +123,7 @@ export class SellerCarService {
     formData.append('file', file, file.name);
 
     // send the http-request and subscribe for progress-updates
-    return this.http.post(url, formData, httpOptions);
+    return this.http.post(url, formData, this.httpOptions);
   }
 
   logout(): void {

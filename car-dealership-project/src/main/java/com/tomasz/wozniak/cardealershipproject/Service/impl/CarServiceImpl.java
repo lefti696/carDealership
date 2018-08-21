@@ -99,21 +99,21 @@ public class CarServiceImpl implements CarService {
     @Override
     public void createSampleDb() {
 
-        CarImage carImageToDb = new CarImage();
-        carImageToDb.setFileName("test_file_name");
+//        CarImage carImageToDb = new CarImage();
+//        carImageToDb.setFileName("test_file_name");
+//
+//        int ferrariId = addCar(new CarData("red", "Ferrari", "Italia", 2018, carImageToDb));
+//        logger.info("Id of created car is " + ferrariId);
+//
+//        CarData carData = getCarById(ferrariId);
+//        CarImage carImageFromDb = carData.getCarImage();
+//        if (null != carImageFromDb) {
+//            logger.error("Zdjecie ferrari: " + carImageFromDb.getFileName() + " id: " + carImageFromDb.getId());
+//        } else {
+//            logger.error("FERRARI NIE MA ZDJECIA");
+//        }
 
-        int ferrariId = addCar(new CarData("red", "Ferrari", "Italia", 2018, carImageToDb));
-        logger.info("Id of created car is " + ferrariId);
-
-        CarData carData = getCarById(ferrariId);
-        CarImage carImageFromDb = carData.getCarImage();
-        if (null != carImageFromDb) {
-            logger.error("Zdjecie ferrari: " + carImageFromDb.getFileName() + " id: " + carImageFromDb.getId());
-        } else {
-            logger.error("FERRARI NIE MA ZDJECIA");
-        }
-
-//        logger.info("Id of created car is " + addCar(new CarData("red", "Ferrari", "Italia", 2018)));
+        logger.info("Id of created car is " + addCar(new CarData("red", "Ferrari", "Italia", 2018)));
         logger.info("Id of created car is " + addCar(new CarData("gray", "Seat", "Ibiza", 2013)));
         logger.info("Id of created car is " + addCar(new CarData("black", "Volvo", "XC60", 2010)));
         logger.info("Id of created car is " + addCar(new CarData("silver", "Ford", "Focus", 2004)));

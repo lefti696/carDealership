@@ -20,8 +20,8 @@ public class DataLoader implements ApplicationRunner {
     }
 
     public void run(ApplicationArguments args) {
-
         logger.info("loading data to DB...");
         carService.createSampleDb();
+        logger.info("CarDealership Started !");
     }
 }
