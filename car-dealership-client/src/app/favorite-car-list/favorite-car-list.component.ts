@@ -1,67 +1,40 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {CarOfferService} from '../car-offer.service';
+import {isStorageAvailable, SESSION_STORAGE, StorageService} from 'angular-webstorage-service';
 import {Car} from '../../car';
+import {Location} from '@angular/common';
+import {MatSnackBar} from '@angular/material';
 import {base64ToBlob} from '../../base64ToBlob';
 import {CarImage} from '../../carImage';
+import {CarOfferService} from '../car-offer.service';
 import {DomSanitizer} from '@angular/platform-browser';
-import {isStorageAvailable, SESSION_STORAGE, StorageService} from 'angular-webstorage-service';
-import {MatSnackBar} from '@angular/material';
 
 const STORAGE_KEY = 'fav-cars';
 const sessionStorageAvailable = isStorageAvailable(sessionStorage);
 
 @Component({
-  selector: 'app-car-list',
-  templateUrl: './car-list.component.html',
-  styleUrls: ['./car-list.component.css']
+  selector: 'app-favorite-car-list',
+  templateUrl: './favorite-car-list.component.html',
+  styleUrls: ['./favorite-car-list.component.css']
 })
-export class CarListComponent implements OnInit {
+export class FavoriteCarListComponent implements OnInit {
 
-  listOfCars: Car[];
+  listOfCars: Car[] = [];
   listOfFavoriteCars: number[];
 
-  constructor(private carOfferService: CarOfferService,
-              private domSanitizer: DomSanitizer,
-              private snackBar: MatSnackBar,
-              @Inject(SESSION_STORAGE) private storage: StorageService
-  ) {
-  }
+  constructor(
+    private location: Location,
+    private domSanitizer: DomSanitizer,
+    private snackBar: MatSnackBar,
+    private carOfferService: CarOfferService,
+    @Inject(SESSION_STORAGE) private storage: StorageService) { }
 
   ngOnInit() {
-    this.getAllCars();
     this.refreshListOfFavoriteCars();
-    this.log(`Session storage available: ${sessionStorageAvailable}`);
+    this.getAllCars();
   }
 
-  getAllCars(): void {
-    this.carOfferService.getAllCars().subscribe(
-      dataFromService => {
-        this.listOfCars = dataFromService;
-        this.fillImages();
-        this.checkIfCarIsFavourite();
-      });
-  }
-
-  fillImages() {
-    for (const car of this.listOfCars) {
-      if (null != car.carImage) {
-        const blob = base64ToBlob(car.carImage.data, car.carImage.fileType);
-        car.carImage.carImgUrl = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-      } else {
-        car.carImage = new CarImage();
-        car.carImage.carImgUrl = '/src/assets/img/car-icons.gif';
-      }
-    }
-  }
-
-  private checkIfCarIsFavourite() {
-    for (const car of this.listOfCars) {
-      if (this.listOfFavoriteCars.includes(car.id)) {
-        car.isFavorite = true;
-      } else {
-        car.isFavorite = false;
-      }
-    }
+  goBack(): void {
+    this.location.back();
   }
 
   private refreshListOfFavoriteCars() {
@@ -72,36 +45,36 @@ export class CarListComponent implements OnInit {
     }
   }
 
-  isSessionAvailable() {
-    return sessionStorageAvailable;
+  getAllCars(): void {
+    this.carOfferService.getAllCars().subscribe(
+      dataFromService => {
+        const listOfCarsFromService = dataFromService;
+        this.fillImages(listOfCarsFromService);
+        this.checkIfCarIsFavourite(listOfCarsFromService);
+      });
   }
 
-  removeFromFavorite(car: Car) {
-    this.log('Removing car with id: ' + car.id + ' from favorites.');
-    this.refreshListOfFavoriteCars();
-    if (this.listOfFavoriteCars.includes(car.id)) {
-      // remove car from list
-      this.listOfFavoriteCars = this.listOfFavoriteCars.filter(cId => cId !== car.id);
-      this.storage.set(STORAGE_KEY, this.listOfFavoriteCars);
-      car.isFavorite = false;
-      this.log('removed');
+  fillImages(listOfCarsFromService: Car[]) {
+    for (const car of listOfCarsFromService) {
+      if (null != car.carImage) {
+        const blob = base64ToBlob(car.carImage.data, car.carImage.fileType);
+        car.carImage.carImgUrl = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+      } else {
+        car.carImage = new CarImage();
+        car.carImage.carImgUrl = '/src/assets/img/car-icons.gif';
+      }
     }
   }
 
-  addToFavorite(car: Car) {
-    this.log('Adding car with id: ' + car.id + ' to favorites.');
-    this.refreshListOfFavoriteCars();
-    if (!this.listOfFavoriteCars.includes(car.id)) {
-      console.log(this.listOfFavoriteCars);
-      this.listOfFavoriteCars.push(car.id);
-      this.storage.set(STORAGE_KEY, this.listOfFavoriteCars);
-      car.isFavorite = true;
-      this.log('added');
+  private checkIfCarIsFavourite(listOfCarsFromService: Car[]) {
+    for (const car of listOfCarsFromService) {
+      if (this.listOfFavoriteCars.includes(car.id)) {
+        car.isFavorite = true;
+        this.listOfCars.push(car);
+      } else {
+        car.isFavorite = false;
+      }
     }
-  }
-
-  log(msg: string) {
-    console.log('CarListComponent: ' + msg);
   }
 
   toggleFavorite(car: Car) {
@@ -142,5 +115,18 @@ export class CarListComponent implements OnInit {
         this.log('Undo add to favorites car with id: ' + car.id);
       });
     }
+  }
+
+  isSessionAvailable() {
+    return sessionStorageAvailable;
+  }
+
+
+  log(msg: string) {
+    console.log('CarListComponent: ' + msg);
+  }
+
+  isListEmpty() {
+    return this.listOfCars.length === 0;
   }
 }

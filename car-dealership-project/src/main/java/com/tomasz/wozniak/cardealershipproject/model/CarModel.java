@@ -3,10 +3,11 @@ package com.tomasz.wozniak.cardealershipproject.model;
 import javax.persistence.*;
 
 @Entity(name = "cars")
+@Table(name = "car_model")
 public class CarModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
     @Column
@@ -51,7 +52,6 @@ public class CarModel {
         return "CarModel. Id: " + this.getId() + " Make: " + this.getMake() + " Model: " + this.getModel()
                 + " Color: " + this.getColor() + " Year: " + this.getMfy();
     }
-
 
 
     public int getId() {

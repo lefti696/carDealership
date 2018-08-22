@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LogoutComponent } from './logout.component';
+import { FavoriteCarListComponent } from './favorite-car-list.component';
 
-describe('LogoutComponent', () => {
-  let component: LogoutComponent;
-  let fixture: ComponentFixture<LogoutComponent>;
+describe('FavoriteCarListComponent', () => {
+  let component: FavoriteCarListComponent;
+  let fixture: ComponentFixture<FavoriteCarListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LogoutComponent ]
+      declarations: [ FavoriteCarListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LogoutComponent);
+    fixture = TestBed.createComponent(FavoriteCarListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

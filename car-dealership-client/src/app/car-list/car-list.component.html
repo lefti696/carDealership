@@ -1,44 +1,52 @@
-
 <div style="text-align:center" class="mat-title">
   <h1>Available cars</h1>
 </div>
 
-  <ul class="list-of-cars">
-    <li *ngFor="let car of listOfCars" >
+<ul class="list-of-cars">
+  <li *ngFor="let car of listOfCars">
 
 
-      <mat-card class="car-details-card">
-        <mat-card-header>
-          <mat-card-title><h2>{{car.make}}</h2></mat-card-title>
-          <mat-card-subtitle><h2>{{car.model}}</h2></mat-card-subtitle>
-        </mat-card-header>
+    <mat-card class="car-details-card">
+      <mat-card-header>
+        <mat-card-title><h2>{{car.make}}</h2></mat-card-title>
+        <mat-card-subtitle><h2>{{car.model}}</h2></mat-card-subtitle>
 
-        <mat-card-content>
+        <!--favorite button-->
+        <div [hidden]="!isSessionAvailable()">
+          <mat-icon color="warn" (click)="toggleFavorite(car)">{{car.isFavorite ? 'favorite' : 'favorite_border'}}
+          </mat-icon>
+        </div>
+      </mat-card-header>
 
-          <mat-grid-list cols="2" rowHeight="2:1">
-            <!--left side -->
-            <mat-grid-tile>
-              <mat-list>
-                <mat-list-item>Color: {{car.color}}</mat-list-item>
-                <mat-list-item>Mfe year: {{car.mfy}}</mat-list-item>
-              </mat-list>
-            </mat-grid-tile>
+      <mat-card-content>
 
-            <!--right side-->
-            <mat-grid-tile>
-              <div *ngIf="car.carImage" align="center">
-                <img [src]="car.carImage.carImgUrl" style="width: 70%; height: 70%">
-              </div>
-            </mat-grid-tile>
-          </mat-grid-list>
+        <mat-grid-list cols="2" rowHeight="2:1">
+          <!--left side -->
+          <mat-grid-tile>
+            <mat-list>
+              <mat-list-item>Color: {{car.color}}</mat-list-item>
+              <mat-list-item>Mfe year: {{car.mfy}}</mat-list-item>
+            </mat-list>
+          </mat-grid-tile>
 
-        </mat-card-content>
+          <!--right side-->
+          <mat-grid-tile>
+            <div *ngIf="car.carImage" align="center">
+              <img [src]="car.carImage.carImgUrl" style="width: 70%; height: 70%">
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
 
-        <mat-card-actions align="end">
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+
+        <div class="button-row">
           <button mat-stroked-button color="accent" routerLink="/details/{{car.id}}">DETAILS</button>
-        </mat-card-actions>
-      </mat-card>
+        </div>
+      </mat-card-actions>
+    </mat-card>
 
-      <br><br>
-    </li>
-  </ul>
+    <br><br>
+  </li>
+</ul>

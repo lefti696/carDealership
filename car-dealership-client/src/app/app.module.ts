@@ -11,10 +11,10 @@ import {WelcomeScreenComponent} from './welcome-screen/welcome-screen.component'
 import {HttpClientModule} from '@angular/common/http';
 import {SellerCarDetailComponent} from './seller-car-detail/seller-car-detail.component';
 import {SellerCarListComponent} from './seller-car-list/seller-car-list.component';
-import {LoginComponent} from './login/login.component';
-import {LogoutComponent} from './logout/logout.component';
 import {FormsModule} from '@angular/forms';
 import {LoginDialogComponent} from './login-dialog/login-dialog.component';
+import {StorageServiceModule} from 'angular-webstorage-service';
+import {FavoriteCarListComponent} from './favorite-car-list/favorite-car-list.component';
 
 @NgModule({
   declarations: [
@@ -24,9 +24,8 @@ import {LoginDialogComponent} from './login-dialog/login-dialog.component';
     WelcomeScreenComponent,
     SellerCarDetailComponent,
     SellerCarListComponent,
-    LoginComponent,
-    LogoutComponent,
-    LoginDialogComponent
+    LoginDialogComponent,
+    FavoriteCarListComponent
   ],
   imports: [
     BrowserModule,
@@ -34,10 +33,12 @@ import {LoginDialogComponent} from './login-dialog/login-dialog.component';
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    StorageServiceModule
   ],
   entryComponents: [LoginDialogComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

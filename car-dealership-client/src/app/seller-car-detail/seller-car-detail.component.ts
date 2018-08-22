@@ -66,7 +66,8 @@ export class SellerCarDetailComponent implements OnInit {
         color: null,
         model: null,
         mfy: null,
-        carImage: null
+        carImage: null,
+        isFavorite: null
       };
       this.matCardTitle = 'Enter new car details:';
       this.car = newCar;

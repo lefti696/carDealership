@@ -1,0 +1,71 @@
+<p style="text-align:center">
+  BANNER PLACE HOLDER
+</p>
+
+<div>
+  <button mat-raised-button color="primary" (click)="goBack()">go back</button>
+</div>
+
+<!--is supported show content-->
+<div [hidden]="!isSessionAvailable()">
+  <div [hidden]="isListEmpty()">
+    <div style="text-align:center" class="mat-title">
+      <h1>The cars you liked</h1>
+    </div>
+  </div>
+
+  <div [hidden]="!isListEmpty()">
+
+    <div style="text-align:center" class="mat-title">
+      <h1>Please like some car first</h1>
+    </div>
+
+    <p>
+      <!--mozna dodac parametr width="300"-->
+      <img src="../assets/img/sad_car.jpg" alt="welcome screen image" class="center-image stretch">
+    </p>
+
+  </div>
+
+
+  <ul class="list-of-cars">
+    <li *ngFor="let car of listOfCars">
+
+
+      <mat-card class="car-details-card">
+        <mat-card-header>
+          <mat-card-title><h2>{{car.make}}</h2></mat-card-title>
+          <mat-card-subtitle><h2>{{car.model}}</h2></mat-card-subtitle>
+
+          <!--favorite button-->
+          <div [hidden]="!isSessionAvailable()">
+            <mat-icon color="warn" (click)="toggleFavorite(car)">{{car.isFavorite ? 'favorite' : 'favorite_border'}}
+            </mat-icon>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div *ngIf="car.carImage" align="center">
+            <img [src]="car.carImage.carImgUrl" style="width: 100%; height: 100%">
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions align="center">
+          <div class="button-row">
+            <button mat-button routerLink="/details/{{car.id}}">DETAILS</button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+
+      <br><br>
+    </li>
+  </ul>
+
+</div>
+
+<!--is not supported-->
+<div [hidden]="isSessionAvailable()">
+  <div style="text-align:center" class="mat-title">
+    <h1>We are sorry, your browser does not support this feature</h1>
+  </div>
+</div>

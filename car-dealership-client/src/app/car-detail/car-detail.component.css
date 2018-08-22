@@ -4,6 +4,20 @@
   margin: 10px auto;
 }
 
+.car-details-fab{
+  position: fixed;
+  right: 20%;
+  margin: 10px auto;
+}
+
+.fab {
+  position: fixed;
+  width: 56px;
+  left: 50%;
+  bottom: 100px;
+  margin-left: -28px;
+}
+
 .car-details-card:hover {
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   background-color: #e8eaf6;

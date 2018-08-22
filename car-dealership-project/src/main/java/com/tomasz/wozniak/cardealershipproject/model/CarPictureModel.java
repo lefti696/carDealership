@@ -1,10 +1,9 @@
 package com.tomasz.wozniak.cardealershipproject.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 @Entity
+@Table(name = "car_picture_model")
 public class CarPictureModel {
 
     @Id

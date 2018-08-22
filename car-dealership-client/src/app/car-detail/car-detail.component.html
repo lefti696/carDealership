@@ -4,14 +4,21 @@
   <button mat-raised-button color="primary" (click)="goBack()">go back to list</button>
 </div>
 
+<div *ngIf="car">
 
-<mat-card class="car-details-card">
-  <div *ngIf="car">
+  <mat-card class="car-details-card">
 
     <h2>{{car.make}} Details</h2>
     <div><span>color: </span>{{car.color}}</div>
     <div><span>manufacture year: </span>{{car.mfy}}</div>
 
-  </div>
-</mat-card>
 
+  </mat-card>
+
+  <div [hidden]="!isSessionAvailable()" class="car-details-fab">
+    <button mat-fab (click)="toggleFavorite(car)" color="{{car.isFavorite ? 'warn' : ''}}">
+      <mat-icon>{{car.isFavorite ? 'favorite' : 'favorite_border'}}</mat-icon>
+    </button>
+  </div>
+
+</div>

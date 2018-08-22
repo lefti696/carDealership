@@ -1,8 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Car} from '../../car';
 import {CarOfferService} from '../car-offer.service';
 import {ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';
+import {isStorageAvailable, SESSION_STORAGE, StorageService} from 'angular-webstorage-service';
+import {MatSnackBar} from '@angular/material';
+
+const STORAGE_KEY = 'fav-cars';
+const sessionStorageAvailable = isStorageAvailable(sessionStorage);
 
 @Component({
   selector: 'app-car-detail',
@@ -12,25 +17,93 @@ import {Location} from '@angular/common';
 export class CarDetailComponent implements OnInit {
 
   car: Car;
+  listOfFavoriteCars: number[];
 
   constructor(
     private route: ActivatedRoute,
     private location: Location,
-    private carOfferService: CarOfferService
-  ) {}
+    private carOfferService: CarOfferService,
+    private snackBar: MatSnackBar,
+    @Inject(SESSION_STORAGE) private storage: StorageService
+  ) {
+  }
 
   ngOnInit() {
     this.getCarById();
+    this.refreshListOfFavoriteCars();
+    console.log(`Session storage available: ${sessionStorageAvailable}`);
   }
 
   getCarById(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     console.log('getting details for car with id: ' + id);
-    this.carOfferService.getCarById(id).subscribe(dataFromService => this.car = dataFromService);
+    this.carOfferService.getCarById(id).subscribe(dataFromService => {
+      this.car = dataFromService;
+      this.car.isFavorite = this.checkIfCarIsFavourite(this.car);
+    });
   }
 
   goBack(): void {
     this.location.back();
   }
 
+  toggleFavorite(car: Car) {
+
+    this.refreshListOfFavoriteCars();
+    if (this.listOfFavoriteCars.includes(car.id)) {
+      car.isFavorite = false;
+      // remove car from list
+      this.listOfFavoriteCars = this.listOfFavoriteCars.filter(cId => cId !== car.id);
+      this.storage.set(STORAGE_KEY, this.listOfFavoriteCars);
+      this.log('Toggle removed from favorite car with id: ' + car.id);
+      const snackBarRef = this.snackBar.open('Car removed from favorites', 'Undo', {
+        duration: 2000,
+      });
+      snackBarRef.onAction().subscribe(() => {
+        console.log('The snack-bar action was triggered!');
+        // cancel
+        car.isFavorite = true;
+        this.listOfFavoriteCars.push(car.id);
+        this.storage.set(STORAGE_KEY, this.listOfFavoriteCars);
+        this.log('Returning to favorites car with id: ' + car.id);
+      });
+    } else {
+      const snackBarRef = this.snackBar.open('Car added to favorites', 'Undo', {
+        duration: 2000,
+      });
+      car.isFavorite = true;
+      this.listOfFavoriteCars.push(car.id);
+      this.storage.set(STORAGE_KEY, this.listOfFavoriteCars);
+      this.log('Toggle added from favorite car with id: ' + car.id);
+      snackBarRef.onAction().subscribe(() => {
+        console.log('The snack-bar action was triggered!');
+        // cancel
+        car.isFavorite = false;
+        // remove car from list
+        this.listOfFavoriteCars = this.listOfFavoriteCars.filter(cId => cId !== car.id);
+        this.storage.set(STORAGE_KEY, this.listOfFavoriteCars);
+        this.log('Undo add to favorites car with id: ' + car.id);
+      });
+    }
+  }
+
+  log(msg: string) {
+    console.log('CarDetailComponent: ' + msg);
+  }
+
+  isSessionAvailable() {
+    return sessionStorageAvailable;
+  }
+
+  private checkIfCarIsFavourite(car: Car): boolean {
+    return (this.listOfFavoriteCars.includes(car.id));
+  }
+
+  private refreshListOfFavoriteCars() {
+    this.listOfFavoriteCars = this.storage.get(STORAGE_KEY);
+    if (null === this.listOfFavoriteCars) {
+      this.log('No listOfFavoriteCars in session.');
+      this.listOfFavoriteCars = [];
+    }
+  }
 }

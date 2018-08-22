@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {Car} from '../car';
-import {HttpClient, HttpHeaders, HttpRequest} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError, tap} from 'rxjs/operators';
 
 // const predefinedCredentials = {
@@ -24,8 +24,7 @@ export class SellerCarService {
 
   authenticated = false;
 
-  httpOptions = {
-  };
+  httpOptions = {};
 
   private baseCarDealershipAppUrl = '//localhost:8080';
   private carSellerDealershipAppUrl = '//localhost:8080/seller';

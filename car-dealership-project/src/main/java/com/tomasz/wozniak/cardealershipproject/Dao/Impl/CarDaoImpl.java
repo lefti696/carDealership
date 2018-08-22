@@ -23,7 +23,7 @@ public class CarDaoImpl implements CarDao {
     @SuppressWarnings("unchecked")
     @Override
     public List<CarModel> getAllCars() {
-        String hql = "from cars";
+        String hql = "from cars ORDER BY id ASC";
         return (List<CarModel>) entityManager.createQuery(hql).getResultList();
     }
 

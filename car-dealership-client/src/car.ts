@@ -8,6 +8,7 @@ export class Car {
   model: string;
   mfy: number;
   carImage: CarImage;
+  isFavorite: boolean;
 
   // constructor(
   //   public id: number,
