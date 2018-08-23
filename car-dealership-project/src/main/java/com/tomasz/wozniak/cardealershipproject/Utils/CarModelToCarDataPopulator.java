@@ -20,6 +20,7 @@ public class CarModelToCarDataPopulator {
         carData.setMake(carModel.getMake());
         carData.setModel(carModel.getModel());
         carData.setMfy(carModel.getMfy());
+        carData.setRecommended(carModel.isRecommended());
 
         CarPictureModel carPictureModel = carModel.getCarPictureModel();
         if (null != carPictureModel) {

@@ -3,6 +3,7 @@ import {Observable, of} from 'rxjs';
 import {Car} from '../car';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError, tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 // const predefinedCredentials = {
 //   username: 'user',
@@ -29,16 +30,18 @@ export class SellerCarService {
   private baseCarDealershipAppUrl = '//localhost:8080';
   private carSellerDealershipAppUrl = '//localhost:8080/seller';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   /** GET all available cars */
   getAllCars(): Observable<Car[]> {
-
+    this.checkAuthentication();
     this.log('Getting all available cars. for: ');
     console.log(this.httpOptions);
     const url = `${this.carSellerDealershipAppUrl}/getAllCars`;
-    return this.http.get<Car[]>(url, this.httpOptions);
+    return this.http.get<Car[]>(url, this.httpOptions).pipe(
+      catchError(this.handleError<any>('getAllCars'))
+    );
   }
 
   /** GET car by id */
@@ -71,12 +74,12 @@ export class SellerCarService {
     );
   }
 
-  /** POST: add a new hero to the server */
+  /** POST: add a new Car to the server */
   addNewCar(car: Car): Observable<Car> {
     const url = `${this.carSellerDealershipAppUrl}/addNewCar`;
 
     return this.http.post<Car>(url, car, this.httpOptions).pipe(
-      catchError(this.handleError<Car>('addHero'))
+      catchError(this.handleError<Car>('addCar'))
     );
   }
 
@@ -158,5 +161,11 @@ export class SellerCarService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
+  }
+
+  private checkAuthentication() {
+    if (!this.isAuthenticated()) {
+      this.router.navigateByUrl('/welcome/-1');
+    }
   }
 }

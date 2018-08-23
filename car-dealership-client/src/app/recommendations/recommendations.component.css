@@ -1,0 +1,29 @@
+
+.car-recommendations-card{
+  width: 50%;
+  /*margin: 10px auto;*/
+  /*max-width: 400px;*/
+  /*background-size: cover;*/
+}
+
+.car-recommendations-card:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  /*lighter*/
+  background-color: #ffc9c9;
+  /*darker*/
+  /*background-color: #c5cae9;*/
+}
+
+.list-of-cars {
+  /*remove dots for list*/
+  list-style-type: none;
+  /*margin from top of site*/
+  margin-top: 50px;
+}
+
+/*mat-card {*/
+  /*width: calc(100% - 70px);*/
+  /*height: calc(65% - 70px);*/
+/*}*/
+
+

@@ -15,6 +15,8 @@ import {FormsModule} from '@angular/forms';
 import {LoginDialogComponent} from './login-dialog/login-dialog.component';
 import {StorageServiceModule} from 'angular-webstorage-service';
 import {FavoriteCarListComponent} from './favorite-car-list/favorite-car-list.component';
+import { NotificationDialogComponent } from './notification-dialog/notification-dialog.component';
+import { RecommendationsComponent } from './recommendations/recommendations.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import {FavoriteCarListComponent} from './favorite-car-list/favorite-car-list.co
     SellerCarDetailComponent,
     SellerCarListComponent,
     LoginDialogComponent,
-    FavoriteCarListComponent
+    FavoriteCarListComponent,
+    NotificationDialogComponent,
+    RecommendationsComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +40,7 @@ import {FavoriteCarListComponent} from './favorite-car-list/favorite-car-list.co
     FormsModule,
     StorageServiceModule
   ],
-  entryComponents: [LoginDialogComponent],
+  entryComponents: [LoginDialogComponent, NotificationDialogComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

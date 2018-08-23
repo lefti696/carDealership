@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {SellerCarService} from './seller-car.service';
 import {Router} from '@angular/router';
 import {Credentials} from './credentials';
@@ -14,7 +14,8 @@ export class AppComponent {
 
   credentials: Credentials = {username: '', password: ''};
 
-  constructor(private sellerCarService: SellerCarService, private router: Router, public dialog: MatDialog) {}
+  constructor(private sellerCarService: SellerCarService, private router: Router, public dialog: MatDialog) {
+  }
 
   // login() {
   //   if (this.isAuthenticated()) {
@@ -36,6 +37,7 @@ export class AppComponent {
         console.log('LoginComponent: User logged in. Redirecting ...');
         this.router.navigateByUrl('/dashboard');
       });
+      this.router.navigateByUrl('/welcome/-1');
     }
   }
 
@@ -56,21 +58,26 @@ export class AppComponent {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(LoginDialogComponent, {
-      width: '300px',
-      data: {Credentials: this.credentials}
-    });
 
-    dialogRef.afterClosed().subscribe(credentialsFromDialog => {
-      console.log('The dialog was closed');
-      // check if username and password are filled with data
-      if (null != credentialsFromDialog && credentialsFromDialog.username && credentialsFromDialog.password) {
-        console.log('Submitting given username and password.');
-        this.credentials.username = credentialsFromDialog.username;
-        this.credentials.password = credentialsFromDialog.password;
-        this.login();
-      }
-    });
+    if (this.sellerCarService.isAuthenticated()) {
+      this.router.navigateByUrl('/dashboard');
+    } else {
+      const dialogRef = this.dialog.open(LoginDialogComponent, {
+        width: '300px',
+        data: {Credentials: this.credentials}
+      });
+
+      dialogRef.afterClosed().subscribe(credentialsFromDialog => {
+        console.log('The dialog was closed');
+        // check if username and password are filled with data
+        if (null != credentialsFromDialog && credentialsFromDialog.username && credentialsFromDialog.password) {
+          console.log('Submitting given username and password.');
+          this.credentials.username = credentialsFromDialog.username;
+          this.credentials.password = credentialsFromDialog.password;
+          this.login();
+        }
+      });
+    }
   }
 
 }

@@ -22,8 +22,8 @@ public class CarModel {
     @Column
     private int mfy;
 
-//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "vehicle", cascade = CascadeType.ALL)
-//    @PrimaryKeyJoinColumn
+    @Column
+    private boolean recommended;
 
     @OneToOne
     @JoinColumn(name = "car_image_id", unique = true)
@@ -39,12 +39,13 @@ public class CarModel {
         this.mfy = mfy;
     }
 
-    public CarModel(String color, String make, String model, int mfy, CarPictureModel carPictureModel) {
+    public CarModel(String color, String make, String model, int mfy, CarPictureModel carPictureModel, boolean recommended) {
         this.color = color;
         this.make = make;
         this.model = model;
         this.mfy = mfy;
         this.carPictureModel = carPictureModel;
+        this.recommended = recommended;
     }
 
     @Override
@@ -100,5 +101,13 @@ public class CarModel {
 
     public void setCarPictureModel(CarPictureModel carPictureModel) {
         this.carPictureModel = carPictureModel;
+    }
+
+    public boolean isRecommended() {
+        return recommended;
+    }
+
+    public void setRecommended(boolean recommended) {
+        this.recommended = recommended;
     }
 }

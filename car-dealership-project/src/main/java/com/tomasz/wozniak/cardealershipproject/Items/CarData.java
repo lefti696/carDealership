@@ -14,6 +14,8 @@ public class CarData {
 
     private CarImage carImage;
 
+    private boolean recommended;
+
     public CarData() {}
 
     public CarData(String color, String make, String model, int mfy) {
@@ -23,12 +25,13 @@ public class CarData {
         this.mfy = mfy;
     }
 
-    public CarData(String color, String make, String model, int mfy, CarImage carImage) {
+    public CarData(String color, String make, String model, int mfy, CarImage carImage, boolean recommended) {
         this.color = color;
         this.make = make;
         this.model = model;
         this.mfy = mfy;
         this.carImage = carImage;
+        this.recommended = recommended;
     }
 
     @Override
@@ -83,5 +86,13 @@ public class CarData {
 
     public void setCarImage(CarImage carImage) {
         this.carImage = carImage;
+    }
+
+    public boolean isRecommended() {
+        return recommended;
+    }
+
+    public void setRecommended(boolean recommended) {
+        this.recommended = recommended;
     }
 }

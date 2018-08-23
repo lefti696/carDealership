@@ -39,6 +39,9 @@ export class SellerCarDetailComponent implements OnInit {
     if (id >= 0) {
       this.sellerCarService.getCarById(id).subscribe(
         dataFromService => {
+          console.log('err data');
+          console.log(dataFromService);
+
           this.car = dataFromService;
           // this.log('Car from server id: ' + dataFromService.id +
           //   ' make: ' + dataFromService.make + ' color: ' + dataFromService.color);
@@ -67,7 +70,8 @@ export class SellerCarDetailComponent implements OnInit {
         model: null,
         mfy: null,
         carImage: null,
-        isFavorite: null
+        isFavorite: null,
+        recommended: null
       };
       this.matCardTitle = 'Enter new car details:';
       this.car = newCar;

@@ -1,0 +1,16 @@
+<div mat-dialog-content>
+  <div style="text-align:center">
+
+    <p>
+      <img src="../assets/img/new_icon.png" width="100" alt="new cars available" class="center-image stretch">
+    </p>
+
+    <div style="text-align:center" class="mat-title">
+      <h3>{{data.newCarsSinceLastVisit}} {{data.newCarsSinceLastVisit > 1 ? ' new cars' : ' new car'}} available since your last visit</h3>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions align="center">
+  <button mat-button (click)="onNoClick()">awesome, show me !</button>
+</div>

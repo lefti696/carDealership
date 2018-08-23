@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'dashboard', component: SellerCarListComponent },
   { path: 'favorites', component: FavoriteCarListComponent },
   { path: 'welcome', component: WelcomeScreenComponent },
+  { path: 'welcome/:msg', component: WelcomeScreenComponent },
   { path: '', redirectTo: '/welcome', pathMatch: 'full' }
 ];
 

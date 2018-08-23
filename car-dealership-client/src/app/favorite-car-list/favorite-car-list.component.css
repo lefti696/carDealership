@@ -21,7 +21,28 @@
 
 .center-image {
   display: block;
-  width: 90%;
+  width: 50%;
   margin-left: auto;
   margin-right: auto;
+}
+
+.center-banner {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-button {
+  text-align:center;
+  margin:auto;
+}
+
+.stretch {
+  width:100%;
+  height:100%;
+}
+
+.stretch-sad {
+  width:50%;
+  height:50%;
 }

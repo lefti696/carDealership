@@ -51,6 +51,7 @@ public class CarDaoImpl implements CarDao {
         carToUpdate.setModel(updatedCarModel.getModel());
         carToUpdate.setColor(updatedCarModel.getColor());
         carToUpdate.setMfy(updatedCarModel.getMfy());
+        carToUpdate.setRecommended(updatedCarModel.isRecommended());
 
         CarPictureModel updatedCarPictureModel = updatedCarModel.getCarPictureModel();
 

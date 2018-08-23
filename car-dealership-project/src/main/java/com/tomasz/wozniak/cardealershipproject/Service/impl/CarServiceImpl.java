@@ -113,10 +113,10 @@ public class CarServiceImpl implements CarService {
 //            logger.error("FERRARI NIE MA ZDJECIA");
 //        }
 
-        logger.info("Id of created car is " + addCar(new CarData("red", "Ferrari", "Italia", 2018)));
-        logger.info("Id of created car is " + addCar(new CarData("gray", "Seat", "Ibiza", 2013)));
+        logger.info("Id of created car is " + addCar(new CarData("red", "Ferrari", "Italia", 2018, null, true)));
+        logger.info("Id of created car is " + addCar(new CarData("gray", "Seat", "Ibiza", 2013, null, true)));
         logger.info("Id of created car is " + addCar(new CarData("black", "Volvo", "XC60", 2010)));
-        logger.info("Id of created car is " + addCar(new CarData("silver", "Ford", "Focus", 2004)));
+        logger.info("Id of created car is " + addCar(new CarData("silver", "Ford", "Focus", 2004, null, true)));
         logger.info("Id of created car is " + addCar(new CarData("cherry", "Toyota", "Yaris", 2014)));
         logger.info("Id of created car is " + addCar(new CarData("purple", "Nissan", "Micra", 2015)));
 

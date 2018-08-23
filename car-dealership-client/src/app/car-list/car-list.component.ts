@@ -6,8 +6,10 @@ import {CarImage} from '../../carImage';
 import {DomSanitizer} from '@angular/platform-browser';
 import {isStorageAvailable, SESSION_STORAGE, StorageService} from 'angular-webstorage-service';
 import {MatSnackBar} from '@angular/material';
+import {SellerCarService} from '../seller-car.service';
 
 const STORAGE_KEY = 'fav-cars';
+const STORAGE_KEY_CARS_NR = 'nr-of-fav-cars';
 const sessionStorageAvailable = isStorageAvailable(sessionStorage);
 
 @Component({
@@ -17,10 +19,11 @@ const sessionStorageAvailable = isStorageAvailable(sessionStorage);
 })
 export class CarListComponent implements OnInit {
 
-  listOfCars: Car[];
-  listOfFavoriteCars: number[];
+  listOfCars: Car[] = [];
+  listOfFavoriteCars: number[] = [];
 
   constructor(private carOfferService: CarOfferService,
+              private sellerCarService: SellerCarService,
               private domSanitizer: DomSanitizer,
               private snackBar: MatSnackBar,
               @Inject(SESSION_STORAGE) private storage: StorageService
@@ -28,8 +31,8 @@ export class CarListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllCars();
     this.refreshListOfFavoriteCars();
+    this.getAllCars();
     this.log(`Session storage available: ${sessionStorageAvailable}`);
   }
 
@@ -39,6 +42,10 @@ export class CarListComponent implements OnInit {
         this.listOfCars = dataFromService;
         this.fillImages();
         this.checkIfCarIsFavourite();
+        if (!this.sellerCarService.isAuthenticated()) {
+          this.log('saving number of available cars');
+          this.storage.set(STORAGE_KEY_CARS_NR, this.listOfCars.length);
+        }
       });
   }
 

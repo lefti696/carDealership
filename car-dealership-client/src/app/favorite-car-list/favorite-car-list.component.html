@@ -1,10 +1,12 @@
-<p style="text-align:center">
-  BANNER PLACE HOLDER
-</p>
-
 <div>
   <button mat-raised-button color="primary" (click)="goBack()">go back</button>
 </div>
+<br>
+<p>
+  <img src="../assets/img/car_list_customer2.jpg" alt="favorite cars banner" class="center-banner stretch">
+</p>
+
+<br><br>
 
 <!--is supported show content-->
 <div [hidden]="!isSessionAvailable()">
@@ -22,7 +24,7 @@
 
     <p>
       <!--mozna dodac parametr width="300"-->
-      <img src="../assets/img/sad_car.jpg" alt="welcome screen image" class="center-image stretch">
+      <img src="../assets/img/sad_car.jpg" alt="welcome screen image" class="center-image stretch-sad">
     </p>
 
   </div>
@@ -30,7 +32,6 @@
 
   <ul class="list-of-cars">
     <li *ngFor="let car of listOfCars">
-
 
       <mat-card class="car-details-card">
         <mat-card-header>

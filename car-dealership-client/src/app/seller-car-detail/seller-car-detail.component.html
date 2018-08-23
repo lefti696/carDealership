@@ -12,6 +12,8 @@
 
     <mat-card-content>
 
+      <mat-checkbox [(ngModel)]="car.recommended">Promote</mat-checkbox>
+      <br>
       <mat-form-field class="example-full-width">
         <input matInput placeholder="Car make:" [(ngModel)]="car.make">
       </mat-form-field>

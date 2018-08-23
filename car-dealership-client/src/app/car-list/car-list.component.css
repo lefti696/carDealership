@@ -18,3 +18,19 @@
   /*margin from top of site*/
   margin-top: 50px;
 }
+
+.center-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-button {
+  text-align:center;
+  margin:auto;
+}
+
+.stretch {
+  width:100%;
+  height:100%;
+}
