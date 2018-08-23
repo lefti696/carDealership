@@ -56,6 +56,15 @@ public class CustomerActionsController {
         return allCars;
     }
 
+    @RequestMapping("/searchCar/{str}")
+    public List<CarData> getAllCars(@PathVariable("str") String str) {
+        logger.debug("Searching cars for customer.");
+
+        List<CarData> allCars = carService.searchCarByMakeOrModel(str);
+
+        return allCars;
+    }
+
     @RequestMapping("/howManyCars")
     public int howManyCars() {
         logger.debug("Counting all available cars for customer.");

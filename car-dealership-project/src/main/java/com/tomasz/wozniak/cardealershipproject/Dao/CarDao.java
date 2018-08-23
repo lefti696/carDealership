@@ -25,6 +25,8 @@ public interface CarDao {
 
     CarModel getCarById(int id);
 
+    List<CarModel> searchCarByMakeOrModel(String str);
+
     void updateCar(CarModel carModel);
 
     void updateCarImage(CarPictureModel carPictureModel);

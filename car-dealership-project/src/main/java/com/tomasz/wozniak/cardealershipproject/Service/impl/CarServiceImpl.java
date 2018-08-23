@@ -52,6 +52,19 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public List<CarData> searchCarByMakeOrModel(String str) {
+        List<CarData> carDataList = new ArrayList<>();
+        List<CarModel> carModelList = carDao.searchCarByMakeOrModel(str);
+
+        if (!CollectionUtils.isEmpty(carModelList)) {
+            for (CarModel carModel : carModelList) {
+                carDataList.add(carModelToCarDataPopulator.convert(carModel));
+            }
+        }
+        return carDataList;
+    }
+
+    @Override
     public int addCar(CarData carData) {
         CarModel carModel = carDataToCarModelPopulator.convert(carData);
         CarPictureModel carPictureModel = carModel.getCarPictureModel();
@@ -114,6 +127,7 @@ public class CarServiceImpl implements CarService {
 //        }
 
         logger.info("Id of created car is " + addCar(new CarData("red", "Ferrari", "Italia", 2018, null, true)));
+        logger.info("Id of created car is " + addCar(new CarData("yellow", "Fiat", "126p", 1987, null, true)));
         logger.info("Id of created car is " + addCar(new CarData("gray", "Seat", "Ibiza", 2013, null, true)));
         logger.info("Id of created car is " + addCar(new CarData("black", "Volvo", "XC60", 2010)));
         logger.info("Id of created car is " + addCar(new CarData("silver", "Ford", "Focus", 2004, null, true)));

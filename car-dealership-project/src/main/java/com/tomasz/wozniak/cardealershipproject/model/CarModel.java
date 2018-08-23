@@ -3,7 +3,7 @@ package com.tomasz.wozniak.cardealershipproject.model;
 import javax.persistence.*;
 
 @Entity(name = "cars")
-@Table(name = "car_model")
+//@Table(name = "car_model")
 public class CarModel {
 
     @Id

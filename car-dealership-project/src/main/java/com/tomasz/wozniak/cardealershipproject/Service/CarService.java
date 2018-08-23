@@ -17,6 +17,8 @@ public interface CarService {
 
     void updateCar(CarData carData);
 
+    List<CarData> searchCarByMakeOrModel(String str);
+
     void deleteCar(int id);
 
     int countAllCars();

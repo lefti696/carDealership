@@ -1,0 +1,41 @@
+.car-details-card{
+  /*max-width: 800px;*/
+  width: 50%;
+  margin: 10px auto;
+}
+
+.found-car:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  /*lighter*/
+  background-color: #d8ffdb;
+  /*darker*/
+  /*background-color: #c5cae9;*/
+}
+
+.search-component {
+  width: 30%;
+  margin: 10px auto;
+}
+
+.search-result {
+  /*remove dots for list*/
+  list-style-type: none;
+  /*margin from top of site*/
+  margin-top: 50px;
+}
+
+.center-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-button {
+  text-align:center;
+  margin:auto;
+}
+
+.stretch {
+  width:100%;
+  height:100%;
+}

@@ -26,6 +26,13 @@ export class CarOfferService {
     return this.http.get<Car[]>(url);
   }
 
+  /** GET search cars matching criteria*/
+  searchCars(str: string): Observable<Car[]> {
+    console.log('getting all available cars');
+    const url = `${this.carDealershipAppUrl}/searchCar/${str}`;
+    return this.http.get<Car[]>(url);
+  }
+
   /** GET car by id */
   getCarById(id: number): Observable<Car> {
     console.log('getting car for id ' + id);

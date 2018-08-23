@@ -17,6 +17,7 @@ import {StorageServiceModule} from 'angular-webstorage-service';
 import {FavoriteCarListComponent} from './favorite-car-list/favorite-car-list.component';
 import { NotificationDialogComponent } from './notification-dialog/notification-dialog.component';
 import { RecommendationsComponent } from './recommendations/recommendations.component';
+import { CarSearchComponent } from './car-search/car-search.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { RecommendationsComponent } from './recommendations/recommendations.comp
     LoginDialogComponent,
     FavoriteCarListComponent,
     NotificationDialogComponent,
-    RecommendationsComponent
+    RecommendationsComponent,
+    CarSearchComponent
   ],
   imports: [
     BrowserModule,

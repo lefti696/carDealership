@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class CarDaoImpl implements CarDao {
     @SuppressWarnings("unchecked")
     @Override
     public List<CarModel> getAllCars() {
-        String hql = "from cars ORDER BY id ASC";
+        String hql = "select c from cars c ORDER BY c.id ASC";
         return (List<CarModel>) entityManager.createQuery(hql).getResultList();
     }
 
@@ -102,5 +103,13 @@ public class CarDaoImpl implements CarDao {
         return entityManager.find(CarPictureModel.class, id);
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<CarModel> searchCarByMakeOrModel(String inputStr) {
+        String hql = "select c from cars c where lower(c.make) like lower(:par) or lower(c.model) like lower(:par)";
+        Query query = entityManager.createQuery(hql);
+        query.setParameter("par", '%' + inputStr + '%');
 
+        return (List<CarModel>) query.getResultList();
+    }
 }

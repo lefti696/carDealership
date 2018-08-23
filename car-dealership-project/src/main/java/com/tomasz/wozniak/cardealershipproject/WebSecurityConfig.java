@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
     //                 ignoring list of urls "
                     .antMatchers("/", "/getFirstCarFromDb", "/seller/unlocked", "/logoutSuccess",
-                            "/getAllCars", "/howManyCars", "/login", "/getCarById/*")
+                            "/getAllCars", "/howManyCars", "/login", "/getCarById/*", "/searchCar/*")
                     .permitAll()
     //                 authenticate all remaining URLS
                     .anyRequest().authenticated()
