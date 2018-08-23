@@ -112,27 +112,23 @@ public class CarServiceImpl implements CarService {
     @Override
     public void createSampleDb() {
 
-//        CarImage carImageToDb = new CarImage();
-//        carImageToDb.setFileName("test_file_name");
-//
-//        int ferrariId = addCar(new CarData("red", "Ferrari", "Italia", 2018, carImageToDb));
-//        logger.info("Id of created car is " + ferrariId);
-//
-//        CarData carData = getCarById(ferrariId);
-//        CarImage carImageFromDb = carData.getCarImage();
-//        if (null != carImageFromDb) {
-//            logger.error("Zdjecie ferrari: " + carImageFromDb.getFileName() + " id: " + carImageFromDb.getId());
-//        } else {
-//            logger.error("FERRARI NIE MA ZDJECIA");
-//        }
+//        (int id, String color, String make, String model, int mfy, CarImage carImage,
+//        boolean recommended, int mfm, String description, String sellerNote, int basePrice, int retailPrice)
 
-        logger.info("Id of created car is " + addCar(new CarData("red", "Ferrari", "Italia", 2018, null, true)));
-        logger.info("Id of created car is " + addCar(new CarData("yellow", "Fiat", "126p", 1987, null, true)));
-        logger.info("Id of created car is " + addCar(new CarData("gray", "Seat", "Ibiza", 2013, null, true)));
-        logger.info("Id of created car is " + addCar(new CarData("black", "Volvo", "XC60", 2010)));
-        logger.info("Id of created car is " + addCar(new CarData("silver", "Ford", "Focus", 2004, null, true)));
-        logger.info("Id of created car is " + addCar(new CarData("cherry", "Toyota", "Yaris", 2014)));
-        logger.info("Id of created car is " + addCar(new CarData("purple", "Nissan", "Micra", 2015)));
+        logger.info("Id of created car is " + addCar(
+                new CarData("red", "Ferrari", "Italia", 2018, null, true, 0, "Insanely fast", "Perfect. Test drive not allowed", 900000, 1100000)));
+        logger.info("Id of created car is " + addCar(
+                new CarData("yellow", "Fiat", "126p", 1987, null, true, 0, "Legend", "little rusted engine inside", 25000, 45000)));
+        logger.info("Id of created car is " + addCar(
+                new CarData("gray", "Seat", "Ibiza", 2013, null, true, 0, "Autoemocion", "Some price negotiations available", 40000, 50000)));
+        logger.info("Id of created car is " + addCar(
+                new CarData("black", "Volvo", "XC60", 2010, null, false, 0, "Safe family car", "Will be frequent guest at our service", 125000, 160000)));
+        logger.info("Id of created car is " + addCar(
+                new CarData("silver", "Ford", "Focus", 2004, null, true, 0, "If pedal to the metal is your purpose of life this will be a perfect choice", "Noone wants to buy. Sell even at lowered price.", 65000, 72000)));
+        logger.info("Id of created car is " + addCar(
+                new CarData("cherry", "Toyota", "Yaris", 2014, null, false, 0, "Japan reliable car", "Good car so negotiations are not possible", 4000, 45000)));
+        logger.info("Id of created car is " + addCar(
+                new CarData("purple", "Nissan", "Micra", 2015, null,false, 0, "Small city car. Easy to park", "Very long standing on a parking lot.", 32000, 39000)));
 
         logger.info(carDao.countAllCars() + " records created.");
     }

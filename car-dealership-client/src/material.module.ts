@@ -4,7 +4,7 @@ import {
   MatBadgeModule,
   MatButtonModule,
   MatCardModule,
-  MatCheckboxModule,
+  MatCheckboxModule, MatDatepickerModule,
   MatDialogModule,
   MatDividerModule,
   MatFormFieldModule,
@@ -32,7 +32,8 @@ import {
     MatDividerModule,
     MatListModule,
     MatGridListModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDatepickerModule
   ],
   exports: [
     MatButtonModule,
@@ -48,7 +49,8 @@ import {
     MatDividerModule,
     MatListModule,
     MatGridListModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDatepickerModule
   ]
 })
 export class MaterialModule {

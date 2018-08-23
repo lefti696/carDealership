@@ -3,7 +3,6 @@ package com.tomasz.wozniak.cardealershipproject.model;
 import javax.persistence.*;
 
 @Entity
-//@Table(name = "car_picture_model")
 public class CarPictureModel {
 
     @Id
@@ -20,9 +19,6 @@ public class CarPictureModel {
     @Column
     private byte[] data;
 
-//    @OneToOne(mappedBy = "carPictureModel")
-//    private CarModel carModel;
-
     public CarPictureModel() {
     }
 
@@ -32,13 +28,6 @@ public class CarPictureModel {
         this.data = data;
     }
 
-//    public CarPictureModel(String fileName, String fileType, byte[] data, CarModel carModel) {
-//        this.fileName = fileName;
-//        this.fileType = fileType;
-//        this.data = data;
-//        this.carModel = carModel;
-//    }
-
     public int getId() {
         return id;
     }
@@ -46,14 +35,6 @@ public class CarPictureModel {
     public void setId(int id) {
         this.id = id;
     }
-
-//    public CarModel getCarModel() {
-//        return carModel;
-//    }
-//
-//    public void setCarModel(CarModel carModel) {
-//        this.carModel = carModel;
-//    }
 
     public String getFileName() {
         return fileName;

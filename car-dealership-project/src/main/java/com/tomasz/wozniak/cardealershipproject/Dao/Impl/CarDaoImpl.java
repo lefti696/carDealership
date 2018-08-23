@@ -53,6 +53,11 @@ public class CarDaoImpl implements CarDao {
         carToUpdate.setColor(updatedCarModel.getColor());
         carToUpdate.setMfy(updatedCarModel.getMfy());
         carToUpdate.setRecommended(updatedCarModel.isRecommended());
+        carToUpdate.setMfm(updatedCarModel.getMfm());
+        carToUpdate.setSellerNote(updatedCarModel.getSellerNote());
+        carToUpdate.setDescription(updatedCarModel.getDescription());
+        carToUpdate.setBasePrice(updatedCarModel.getBasePrice());
+        carToUpdate.setRetailPrice(updatedCarModel.getRetailPrice());
 
         CarPictureModel updatedCarPictureModel = updatedCarModel.getCarPictureModel();
 

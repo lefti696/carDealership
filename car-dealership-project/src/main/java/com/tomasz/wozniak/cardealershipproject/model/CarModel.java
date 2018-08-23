@@ -3,7 +3,6 @@ package com.tomasz.wozniak.cardealershipproject.model;
 import javax.persistence.*;
 
 @Entity(name = "cars")
-//@Table(name = "car_model")
 public class CarModel {
 
     @Id
@@ -20,10 +19,25 @@ public class CarModel {
     private String model;
 
     @Column
+    private boolean recommended;
+
+    @Column
     private int mfy;
 
     @Column
-    private boolean recommended;
+    private int mfm;
+
+    @Column
+    private String description;
+
+    @Column
+    private String sellerNote;
+
+    @Column
+    private int basePrice;
+
+    @Column
+    private int retailPrice;
 
     @OneToOne
     @JoinColumn(name = "car_image_id", unique = true)
@@ -32,20 +46,19 @@ public class CarModel {
     public CarModel() {
     }
 
-    public CarModel(String color, String make, String model, int mfy) {
+    public CarModel(String color, String make, String model, int mfy, int mfm, boolean recommended,
+                    String description, String sellerNote, int basePrice, int retailPrice, CarPictureModel carPictureModel) {
         this.color = color;
         this.make = make;
         this.model = model;
         this.mfy = mfy;
-    }
-
-    public CarModel(String color, String make, String model, int mfy, CarPictureModel carPictureModel, boolean recommended) {
-        this.color = color;
-        this.make = make;
-        this.model = model;
-        this.mfy = mfy;
-        this.carPictureModel = carPictureModel;
+        this.mfm = mfm;
         this.recommended = recommended;
+        this.description = description;
+        this.sellerNote = sellerNote;
+        this.basePrice = basePrice;
+        this.retailPrice = retailPrice;
+        this.carPictureModel = carPictureModel;
     }
 
     @Override
@@ -109,5 +122,45 @@ public class CarModel {
 
     public void setRecommended(boolean recommended) {
         this.recommended = recommended;
+    }
+
+    public int getMfm() {
+        return mfm;
+    }
+
+    public void setMfm(int mfm) {
+        this.mfm = mfm;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getSellerNote() {
+        return sellerNote;
+    }
+
+    public void setSellerNote(String sellerNote) {
+        this.sellerNote = sellerNote;
+    }
+
+    public int getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(int basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public int getRetailPrice() {
+        return retailPrice;
+    }
+
+    public void setRetailPrice(int retailPrice) {
+        this.retailPrice = retailPrice;
     }
 }

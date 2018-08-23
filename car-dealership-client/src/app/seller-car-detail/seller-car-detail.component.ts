@@ -41,12 +41,10 @@ export class SellerCarDetailComponent implements OnInit {
     if (id >= 0) {
       this.sellerCarService.getCarById(id).subscribe(
         dataFromService => {
-          console.log('err data');
-          console.log(dataFromService);
 
           this.car = dataFromService;
-          // this.log('Car from server id: ' + dataFromService.id +
-          //   ' make: ' + dataFromService.make + ' color: ' + dataFromService.color);
+          this.log('Car from server with id: ' + dataFromService.id +
+            ' make: ' + dataFromService.make + ' color: ' + dataFromService.color);
           console.log(dataFromService);
 
           const carImage: CarImage = dataFromService.carImage;
@@ -73,7 +71,12 @@ export class SellerCarDetailComponent implements OnInit {
         mfy: null,
         carImage: null,
         isFavorite: null,
-        recommended: null
+        recommended: null,
+        basePrice: null,
+        description: null,
+        mfm: null,
+        retailPrice: null,
+        sellerNote: null
       };
       this.matCardTitle = 'Enter new car details:';
       this.car = newCar;
@@ -155,7 +158,6 @@ export class SellerCarDetailComponent implements OnInit {
         // this.car.image = file;
         this.carImgUrl = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
 
-        // upload file to server - PLACEHOLDER
         this.sellerCarService.upload(file, this.car.id).subscribe(
           (ret) => {
             this.log('id of car image: ' + ret);

@@ -7,9 +7,14 @@ export class Car {
   make: string;
   model: string;
   mfy: number;
+  mfm: number;
   carImage: CarImage;
   isFavorite: boolean;
   recommended: boolean;
+  description: string;
+  sellerNote: string;
+  basePrice: number;
+  retailPrice: number;
 
   // constructor(
   //   public id: number,

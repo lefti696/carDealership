@@ -1,5 +1,6 @@
 package com.tomasz.wozniak.cardealershipproject.Controllers;
 
+import com.tomasz.wozniak.cardealershipproject.Facade.CustomerFacade;
 import com.tomasz.wozniak.cardealershipproject.Items.CarData;
 import com.tomasz.wozniak.cardealershipproject.Service.CarService;
 import org.apache.log4j.Logger;
@@ -13,16 +14,12 @@ public class CustomerActionsController {
 
     private static final Logger logger = Logger.getLogger(CustomerActionsController.class);
 
-    private CarService carService;
+    private CustomerFacade customerFacade;
 
     @Autowired
-    public void setCarService(CarService carService) {
-        this.carService = carService;
+    public void setCustomerFacade(CustomerFacade customerFacade) {
+        this.customerFacade = customerFacade;
     }
-
-//    root request mapping
-//    @RequestMapping("/")
-//    redirect cars/list
 
     @RequestMapping("/test")
     public CarData greeting(@RequestParam(value = "color", defaultValue = "Red") String color,
@@ -35,11 +32,12 @@ public class CustomerActionsController {
         return firstCar;
     }
 
+    //to remove
     @ResponseBody
     @RequestMapping("/getFirstCarFromDb")
     public CarData getFirstCarFromDb() {
         logger.debug("getting first car from DB");
-        List<CarData> allCars = carService.getAllCars();
+        List<CarData> allCars = customerFacade.getAllCars();
 
         CarData carToReturn = allCars.get(0);
         logger.debug("Found car: " + carToReturn.getColor() + " " + carToReturn.getMake());
@@ -51,7 +49,7 @@ public class CustomerActionsController {
     public List<CarData> getAllCars() {
         logger.debug("Listing all cars for customer.");
 
-        List<CarData> allCars = carService.getAllCars();
+        List<CarData> allCars = customerFacade.getAllCars();
 
         return allCars;
     }
@@ -60,7 +58,7 @@ public class CustomerActionsController {
     public List<CarData> getAllCars(@PathVariable("str") String str) {
         logger.debug("Searching cars for customer.");
 
-        List<CarData> allCars = carService.searchCarByMakeOrModel(str);
+        List<CarData> allCars = customerFacade.searchCarByMakeOrModel(str);
 
         return allCars;
     }
@@ -69,14 +67,14 @@ public class CustomerActionsController {
     public int howManyCars() {
         logger.debug("Counting all available cars for customer.");
 
-        return carService.countAllCars();
+        return customerFacade.countAllCars();
     }
 
     @RequestMapping(value = "/getCarById/{id}", method = RequestMethod.GET)
     public CarData getCarById(@PathVariable("id") int id) {
         logger.debug("looking for a car with id: " + id + " for customer.");
 
-        return carService.getCarById(id);
+        return customerFacade.getCarById(id);
     }
 
 
