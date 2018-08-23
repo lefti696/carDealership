@@ -57,12 +57,12 @@ public class SellerActionsController {
     }
 
     @PostMapping("/addNewCar")
-    public ResponseEntity<Void> addNewCar(@RequestBody CarData carData) {
+    public ResponseEntity<Integer> addNewCar(@RequestBody CarData carData) {
         logger.debug("adding a new car: " + carData.toString());
 
         int newCarId = carService.addCar(carData);
         logger.debug("successfully created with id: " + newCarId);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+        return new ResponseEntity<Integer>(newCarId, HttpStatus.CREATED);
     }
 
     @PutMapping("/updateCar")
@@ -89,13 +89,11 @@ public class SellerActionsController {
                 carImage.setFileType(file.getContentType());
                 carImage.setData(file.getBytes());
 
-                int imageId = carService.addImage(carImage);
-                logger.debug("Uploaded image with id: " + imageId);
-
                 car.setCarImage(carImage);
                 carService.updateCar(car);
 
-                logger.debug("Car image updated.");
+                int imageId = carService.getCarById(carId).getCarImage().getId();
+                logger.debug("New image with id: " + imageId);
 
                 return new ResponseEntity<>(imageId, HttpStatus.CREATED);
 

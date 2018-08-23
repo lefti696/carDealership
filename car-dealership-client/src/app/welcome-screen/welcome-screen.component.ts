@@ -6,7 +6,7 @@ import {SellerCarService} from '../seller-car.service';
 import {NotificationDialogComponent} from '../notification-dialog/notification-dialog.component';
 import {ActivatedRoute} from '@angular/router';
 
-const STORAGE_KEY_CARS_NR = 'nr-of-fav-cars';
+const STORAGE_KEY_CARS_NR = 'last-car-count';
 
 @Component({
   selector: 'app-welcome-screen',

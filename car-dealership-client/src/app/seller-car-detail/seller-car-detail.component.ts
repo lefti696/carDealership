@@ -18,7 +18,9 @@ export class SellerCarDetailComponent implements OnInit {
   car: Car;
   carImgUrl: SafeUrl = '/src/assets/img/car-icons.gif';
   matCardTitle: string;
+  // for different mat card buttons
   isEditMode: boolean;
+  errMsg: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -107,14 +109,39 @@ export class SellerCarDetailComponent implements OnInit {
   }
 
   addNew(): void {
-    this.sellerCarService.addNewCar(this.car).subscribe(
-      () => {
-        this.log('redirecting to dashboard after adding new car');
-        this.router.navigateByUrl('/dashboard');
-      });
+    if (this.car.make && this.car.model) {
+      this.sellerCarService.addNewCar(this.car).subscribe(
+        (carId) => {
+          console.log('Created car id: ' + carId);
+          this.log('redirecting to dashboard after adding new car');
+          this.router.navigateByUrl('/dashboard');
+        });
+    } else {
+      this.errMsg = 'Fill at least make and model';
+    }
   }
 
   onFileChange(event) {
+    console.log(this.car);
+
+    if (null === this.car.id) {
+      console.log('car id is null');
+      if (null != this.car.make && this.car.make.length > 0 && null != this.car.model && this.car.model.length > 0) {
+        console.log('creating new car');
+        this.sellerCarService.addNewCar(this.car).subscribe( carId => {
+          console.log('Created car id: ' + carId);
+          this.car.id = carId;
+          this.uploadFile(event);
+        });
+      } else {
+        this.errMsg = 'Fill at least make and model to upload image';
+      }
+    } else {
+      this.uploadFile(event);
+    }
+  }
+
+  uploadFile(event): void {
     const reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
       const file: File = event.target.files[0];
@@ -132,6 +159,7 @@ export class SellerCarDetailComponent implements OnInit {
         this.sellerCarService.upload(file, this.car.id).subscribe(
           (ret) => {
             this.log('id of car image: ' + ret);
+            this.isEditMode = true;
           }
         );
       };

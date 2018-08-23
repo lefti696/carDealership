@@ -75,7 +75,7 @@ export class SellerCarService {
   }
 
   /** POST: add a new Car to the server */
-  addNewCar(car: Car): Observable<Car> {
+  addNewCar(car: Car): Observable<any> {
     const url = `${this.carSellerDealershipAppUrl}/addNewCar`;
 
     return this.http.post<Car>(url, car, this.httpOptions).pipe(

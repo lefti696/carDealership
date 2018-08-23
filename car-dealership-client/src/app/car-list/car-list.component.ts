@@ -7,9 +7,10 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {isStorageAvailable, SESSION_STORAGE, StorageService} from 'angular-webstorage-service';
 import {MatSnackBar} from '@angular/material';
 import {SellerCarService} from '../seller-car.service';
+import {NavigationEnd, Router} from '@angular/router';
 
 const STORAGE_KEY = 'fav-cars';
-const STORAGE_KEY_CARS_NR = 'nr-of-fav-cars';
+const STORAGE_KEY_CARS_NR = 'last-car-count';
 const sessionStorageAvailable = isStorageAvailable(sessionStorage);
 
 @Component({
@@ -26,6 +27,7 @@ export class CarListComponent implements OnInit {
               private sellerCarService: SellerCarService,
               private domSanitizer: DomSanitizer,
               private snackBar: MatSnackBar,
+              private router: Router,
               @Inject(SESSION_STORAGE) private storage: StorageService
   ) {
   }
@@ -34,6 +36,14 @@ export class CarListComponent implements OnInit {
     this.refreshListOfFavoriteCars();
     this.getAllCars();
     this.log(`Session storage available: ${sessionStorageAvailable}`);
+
+    // scroll to bottom if redirected
+    // this.router.events.subscribe((evt) => {
+    //   if (!(evt instanceof NavigationEnd)) {
+    //     return;
+    //   }
+    //   window.scrollTo(0, document.body.scrollHeight);
+    // });
   }
 
   getAllCars(): void {
@@ -58,24 +68,6 @@ export class CarListComponent implements OnInit {
         car.carImage = new CarImage();
         car.carImage.carImgUrl = '/src/assets/img/car-icons.gif';
       }
-    }
-  }
-
-  private checkIfCarIsFavourite() {
-    for (const car of this.listOfCars) {
-      if (this.listOfFavoriteCars.includes(car.id)) {
-        car.isFavorite = true;
-      } else {
-        car.isFavorite = false;
-      }
-    }
-  }
-
-  private refreshListOfFavoriteCars() {
-    this.listOfFavoriteCars = this.storage.get(STORAGE_KEY);
-    if (null === this.listOfFavoriteCars) {
-      this.log('No listOfFavoriteCars in session.');
-      this.listOfFavoriteCars = [];
     }
   }
 
@@ -148,6 +140,24 @@ export class CarListComponent implements OnInit {
         this.storage.set(STORAGE_KEY, this.listOfFavoriteCars);
         this.log('Undo add to favorites car with id: ' + car.id);
       });
+    }
+  }
+
+  private checkIfCarIsFavourite() {
+    for (const car of this.listOfCars) {
+      if (this.listOfFavoriteCars.includes(car.id)) {
+        car.isFavorite = true;
+      } else {
+        car.isFavorite = false;
+      }
+    }
+  }
+
+  private refreshListOfFavoriteCars() {
+    this.listOfFavoriteCars = this.storage.get(STORAGE_KEY);
+    if (null === this.listOfFavoriteCars) {
+      this.log('No listOfFavoriteCars in session.');
+      this.listOfFavoriteCars = [];
     }
   }
 }

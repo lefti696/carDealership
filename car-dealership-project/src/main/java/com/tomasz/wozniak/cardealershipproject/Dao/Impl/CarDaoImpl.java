@@ -63,7 +63,8 @@ public class CarDaoImpl implements CarDao {
         }
         if (null == carToUpdate.getCarPictureModel() && null != updatedCarPictureModel) {
             //upload new picture
-            addImage(updatedCarPictureModel);
+            int newImageId = addImage(updatedCarPictureModel);
+            logger.info("New picture picture uploaded with id: " + newImageId);
             carToUpdate.setCarPictureModel(updatedCarPictureModel);
         }
         entityManager.flush();
