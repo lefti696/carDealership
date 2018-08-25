@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Car} from '../../car';
 import {SellerCarService} from '../seller-car.service';
 import {Router} from '@angular/router';
-import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {DomSanitizer} from '@angular/platform-browser';
 import {base64ToBlob} from '../../base64ToBlob';
 import {CarImage} from '../../carImage';
 
@@ -16,7 +16,10 @@ export class SellerCarListComponent implements OnInit {
   listOfCars: Car[];
   emptyListMsg: string;
 
-  constructor(private sellerCarService: SellerCarService, private router: Router, private domSanitizer: DomSanitizer) {
+  constructor(
+    private sellerCarService: SellerCarService,
+    private router: Router,
+    private domSanitizer: DomSanitizer) {
   }
 
   ngOnInit() {
@@ -32,14 +35,23 @@ export class SellerCarListComponent implements OnInit {
   }
 
   getAllCars(): void {
-    this.sellerCarService.getAllCars().subscribe(dataFromService => {
-      this.listOfCars = dataFromService;
-      if (null != dataFromService && dataFromService.length === 0) {
-        this.emptyListMsg = 'Currently there are no cars for sale. Please add any.';
-      } else {
-        this.fillImages();
+    this.sellerCarService.getAllCars().subscribe(
+      dataFromService => {
+        this.listOfCars = dataFromService;
+        if (null != dataFromService && dataFromService.length === 0) {
+          this.emptyListMsg = 'Currently there are no cars for sale. Please add any.';
+        } else {
+          this.fillImages();
+        }
+      },
+      (err: Response) => {
+        this.log('There is an ERROR !');
+        console.log(err);
+        if (err.status === 401) {
+          this.router.navigateByUrl('/welcome/-1');
+        }
       }
-    });
+    );
   }
 
 

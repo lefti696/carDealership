@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {SellerCarService} from '../seller-car.service';
 import {Car} from '../../car';
-import {log} from 'util';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {CarImage} from '../../carImage';
 import {base64ToBlob} from '../../base64ToBlob';
@@ -20,7 +19,12 @@ export class SellerCarDetailComponent implements OnInit {
   matCardTitle: string;
   // for different mat card buttons
   isEditMode: boolean;
-  errMsg: string;
+  // validation messages
+  validationErr: string[] = [];
+  // for slider
+  sliderMinValue: number;
+  sliderMaxValue: number;
+  shortPrice: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,8 +35,36 @@ export class SellerCarDetailComponent implements OnInit {
   ) {
   }
 
+  // for slider
+  formatLabel(value: number | null) {
+    if (!value) {
+      return 0;
+    }
+    if (value >= 1000) {
+      return Math.round(value / 1000);
+    }
+    return value;
+  }
+
   ngOnInit() {
     this.getCarById();
+  }
+
+  setMinMaxPrice() {
+    if (null == this.car.basePrice || 0 === this.car.basePrice) {
+      console.log('setting up default values for slider');
+      this.sliderMinValue = 0;
+      this.sliderMaxValue = 1000000;
+    } else {
+      console.log('setting up values for slider based on price');
+      this.sliderMinValue = this.car.basePrice;
+      this.sliderMaxValue = this.car.basePrice * 1.5;
+    }
+    if (null == this.car.retailPrice || 0 === this.car.retailPrice) {
+      this.shortPrice = 0;
+    } else {
+      this.shortPrice = this.car.retailPrice / 1000;
+    }
   }
 
   getCarById(): void {
@@ -59,28 +91,32 @@ export class SellerCarDetailComponent implements OnInit {
           }
           this.matCardTitle = 'Details of:';
           this.isEditMode = true;
+          this.setMinMaxPrice();
         }
       );
     } else {
       // create new car for sale
       const newCar: Car = {
         id: null,
-        make: null,
-        color: null,
-        model: null,
-        mfy: null,
+        make: '',
+        color: '',
+        model: '',
+        mfy: 2018,
         carImage: null,
-        isFavorite: null,
-        recommended: null,
-        basePrice: null,
-        description: null,
+        isFavorite: false,
+        recommended: false,
+        basePrice: 0,
+        description: '',
         mfm: null,
-        retailPrice: null,
-        sellerNote: null
+        retailPrice: 0,
+        sellerNote: '',
+        engineDescription: '',
+        engineVolume: 0
       };
       this.matCardTitle = 'Enter new car details:';
       this.car = newCar;
       this.isEditMode = false;
+      this.setMinMaxPrice();
     }
   }
 
@@ -103,7 +139,7 @@ export class SellerCarDetailComponent implements OnInit {
   }
 
   edit(): void {
-    log('updating: ' + this.car.color + ' ' + this.car.make);
+    console.log('updating: ' + this.car.color + ' ' + this.car.make);
     this.sellerCarService.updateCar(this.car).subscribe(
       () => {
         this.log('redirecting to dashboard after deleting');
@@ -112,15 +148,29 @@ export class SellerCarDetailComponent implements OnInit {
   }
 
   addNew(): void {
-    if (this.car.make && this.car.model) {
+    console.log('validating form');
+    this.validationErr = [];
+    if (null == this.car.basePrice || this.car.basePrice <= 0 || null == this.car.retailPrice || this.car.retailPrice <= 0) {
+      this.validationErr.push('Please fill price details');
+    }
+    if (null == this.car.engineVolume || this.car.engineVolume <= 0) {
+      this.validationErr.push('Please fill engine volume');
+    }
+    if (!this.car.make) {
+      this.validationErr.push('Make of car has to be filled');
+    }
+    if (!this.car.model) {
+      this.validationErr.push('Model of car has to be filled');
+    }
+
+    if (null == this.validationErr || this.validationErr.length === 0) {
+      console.log('no errors proceeding');
       this.sellerCarService.addNewCar(this.car).subscribe(
         (carId) => {
           console.log('Created car id: ' + carId);
           this.log('redirecting to dashboard after adding new car');
           this.router.navigateByUrl('/dashboard');
         });
-    } else {
-      this.errMsg = 'Fill at least make and model';
     }
   }
 
@@ -131,13 +181,14 @@ export class SellerCarDetailComponent implements OnInit {
       console.log('car id is null');
       if (null != this.car.make && this.car.make.length > 0 && null != this.car.model && this.car.model.length > 0) {
         console.log('creating new car');
-        this.sellerCarService.addNewCar(this.car).subscribe( carId => {
+        this.sellerCarService.addNewCar(this.car).subscribe(carId => {
           console.log('Created car id: ' + carId);
           this.car.id = carId;
+          this.setMinMaxPrice();
           this.uploadFile(event);
         });
       } else {
-        this.errMsg = 'Fill at least make and model to upload image';
+        this.validationErr.push('Fill at least make and model to upload image');
       }
     } else {
       this.uploadFile(event);

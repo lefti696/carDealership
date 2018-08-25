@@ -11,7 +11,9 @@
 
 <div style="text-align:center" class="mat-title">
   <div [hidden]="isEmptyList()">
-      <h3>You are currently selling</h3>
+    <app-selling-statistics></app-selling-statistics>
+    <br>
+    <h3>You are currently selling</h3>
   </div>
   <div [hidden]="!isEmptyList()">
       <h3>{{emptyListMsg}}</h3>
@@ -30,12 +32,14 @@
 
       <mat-card-content>
 
-        <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-list cols="2">
           <!--left side -->
           <mat-grid-tile>
             <mat-list>
               <mat-list-item>Color: {{car.color}}</mat-list-item>
+              <mat-list-item>Engine: {{car.engineVolume}} {{car.engineDescription}}</mat-list-item>
               <mat-list-item>Mfe year: {{car.mfy}}</mat-list-item>
+              <mat-list-item>Selling price: {{car.retailPrice.toLocaleString()}}</mat-list-item>
             </mat-list>
           </mat-grid-tile>
 
@@ -47,6 +51,25 @@
           </mat-grid-tile>
         </mat-grid-list>
 
+        <mat-list>
+          <mat-list-item>
+            <p matLine>
+              <span> Personal note: </span>
+            </p>
+            <p matLine>
+              <span class="personal-note"> {{car.sellerNote}} </span>
+            </p>
+          </mat-list-item>
+
+          <mat-list-item>
+            <p matLine>
+              <span> Official description:</span>
+            </p>
+            <p matLine>
+              <span class="description"> {{car.description}} </span>
+            </p>
+          </mat-list-item>
+        </mat-list>
       </mat-card-content>
 
       <mat-card-actions align="end">

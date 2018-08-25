@@ -26,6 +26,10 @@ public class CarData {
 
     private int retailPrice;
 
+    private double engineVolume;
+
+    private String engineDescription;
+
     public CarData() {}
 
     public CarData(String color, String make, String model, int mfy) {
@@ -44,8 +48,8 @@ public class CarData {
         this.recommended = recommended;
     }
 
-    public CarData(String color, String make, String model, int mfy, CarImage carImage,
-                   boolean recommended, int mfm, String description, String sellerNote, int basePrice, int retailPrice) {
+    public CarData(String color, String make, String model, int mfy, CarImage carImage, boolean recommended,
+                   int mfm, String description, String sellerNote, int basePrice, int retailPrice, double engineVolume, String engineDescription) {
         this.color = color;
         this.make = make;
         this.model = model;
@@ -57,6 +61,8 @@ public class CarData {
         this.sellerNote = sellerNote;
         this.basePrice = basePrice;
         this.retailPrice = retailPrice;
+        this.engineVolume = engineVolume;
+        this.engineDescription = engineDescription;
     }
 
     @Override
@@ -159,5 +165,21 @@ public class CarData {
 
     public void setRetailPrice(int retailPrice) {
         this.retailPrice = retailPrice;
+    }
+
+    public double getEngineVolume() {
+        return engineVolume;
+    }
+
+    public void setEngineVolume(double engineVolume) {
+        this.engineVolume = engineVolume;
+    }
+
+    public String getEngineDescription() {
+        return engineDescription;
+    }
+
+    public void setEngineDescription(String engineDescription) {
+        this.engineDescription = engineDescription;
     }
 }

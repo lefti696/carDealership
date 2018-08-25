@@ -26,6 +26,8 @@ public class CarDataToCarModelPopulator {
         carModel.setSellerNote(carData.getSellerNote());
         carModel.setBasePrice(carData.getBasePrice());
         carModel.setRetailPrice(carData.getRetailPrice());
+        carModel.setEngineDescription(carData.getEngineDescription());
+        carModel.setEngineVolume(carData.getEngineVolume());
 
         CarImage carImage = carData.getCarImage();
         if (null != carImage) {

@@ -33,11 +33,15 @@ export class AppComponent {
       this.router.navigateByUrl('/dashboard');
     } else {
       this.log('User is not logged in. Redirecting to login panel');
-      this.sellerCarService.authenticate(this.credentials, () => {
-        console.log('LoginComponent: User logged in. Redirecting ...');
-        this.router.navigateByUrl('/dashboard');
+      this.sellerCarService.authenticate(this.credentials, (returnedAuthenticationInfo: boolean) => {
+        if (returnedAuthenticationInfo) {
+          console.log('LoginComponent: User logged in. Redirecting to dashboard');
+          this.router.navigateByUrl('/dashboard');
+        } else {
+          console.log('LoginComponent: Problem with logging in. Redirecting to welcome error');
+          this.router.navigateByUrl('/welcome/-1');
+        }
       });
-      this.router.navigateByUrl('/welcome/-1');
     }
   }
 

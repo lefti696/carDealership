@@ -4,7 +4,7 @@ import {MatDialog} from '@angular/material';
 import {SESSION_STORAGE, StorageService} from 'angular-webstorage-service';
 import {SellerCarService} from '../seller-car.service';
 import {NotificationDialogComponent} from '../notification-dialog/notification-dialog.component';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 const STORAGE_KEY_CARS_NR = 'last-car-count';
 
@@ -25,12 +25,17 @@ export class WelcomeScreenComponent implements OnInit {
     private carOfferService: CarOfferService,
     private sellerCarService: SellerCarService,
     public dialog: MatDialog,
+    private router: Router,
     @Inject(SESSION_STORAGE) private storage: StorageService) {
   }
 
   ngOnInit() {
     if (-1 === +this.route.snapshot.paramMap.get('msg')) {
       this.msg = 'Unauthorized or wrong login data';
+      // redirect after time
+      setTimeout(() => {
+        this.router.navigate(['/welcome']);
+      }, 3000);  // 5s
     }
     this.setNumberOfAvailableCars();
   }
@@ -50,9 +55,9 @@ export class WelcomeScreenComponent implements OnInit {
   openDialog(newCarsCounter: number): void {
     const dialogRef = this.dialog.open(NotificationDialogComponent
       , {
-      width: '300px',
-      data: {newCarsSinceLastVisit: newCarsCounter}
-    });
+        width: '300px',
+        data: {newCarsSinceLastVisit: newCarsCounter}
+      });
     // set new number of cars
   }
 

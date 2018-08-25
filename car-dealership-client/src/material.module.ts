@@ -12,7 +12,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatListModule,
-  MatMenuModule,
+  MatMenuModule, MatSliderModule, MatSlideToggleModule,
   MatSnackBarModule,
   MatToolbarModule
 } from '@angular/material';
@@ -33,7 +33,8 @@ import {
     MatListModule,
     MatGridListModule,
     MatSnackBarModule,
-    MatDatepickerModule
+    MatSliderModule,
+    MatSlideToggleModule,
   ],
   exports: [
     MatButtonModule,
@@ -50,7 +51,8 @@ import {
     MatListModule,
     MatGridListModule,
     MatSnackBarModule,
-    MatDatepickerModule
+    MatSliderModule,
+    MatSlideToggleModule,
   ]
 })
 export class MaterialModule {

@@ -8,10 +8,10 @@
   <mat-list>
     <mat-list-item *ngFor="let car of cars" routerLink="/details/{{car.id}}" class="found-car">
       <img matListAvatar [src]="car.carImage.carImgUrl" alt="...">
-      <h3 matLine> {{car.id}} </h3>
+      <h3 matLine> {{car.make}} {{car.model}} {{car.engineVolume.toFixed(2)}} {{car.engineDescription}} </h3>
       <p matLine>
-        <span> {{car.make}} </span>
-        <span class="demo-2"> -- {{car.model}} </span>
+        <span> {{car.mfy}} </span>
+        <span class="demo-2"> Price: {{car.retailPrice}} </span>
       </p>
     </mat-list-item>
   </mat-list>

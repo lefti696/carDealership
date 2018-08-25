@@ -26,12 +26,12 @@ public class SellerActionsController {
     }
 
     @RequestMapping("/getAllCars")
-    public List<CarData> getAllCars() {
+    public ResponseEntity<List<CarData>> getAllCars() {
         logger.debug("Listing all cars for seller");
 
         List<CarData> allCars = carService.getAllCars();
         logger.debug("Found: " + allCars.size() + " cars in db.");
-        return allCars;
+        return new ResponseEntity<List<CarData>>(allCars, HttpStatus.OK);
     }
 
     @RequestMapping("/howManyCars")

@@ -55,6 +55,10 @@
             <button mat-button routerLink="/details/{{car.id}}">DETAILS</button>
           </div>
         </mat-card-actions>
+        <mat-card-footer>
+          <mat-card-subtitle><h2>&nbsp;&nbsp;&nbsp;
+            {{car.retailPrice.toLocaleString()}} zł</h2></mat-card-subtitle>
+        </mat-card-footer>
       </mat-card>
 
       <br><br>

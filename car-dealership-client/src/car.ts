@@ -15,6 +15,8 @@ export class Car {
   sellerNote: string;
   basePrice: number;
   retailPrice: number;
+  engineVolume: number;
+  engineDescription: string;
 
   // constructor(
   //   public id: number,

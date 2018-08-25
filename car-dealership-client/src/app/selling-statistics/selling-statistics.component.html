@@ -1,0 +1,34 @@
+<br>
+<br>
+<br>
+<mat-card class="facts-card">
+  <img mat-card-image src="../assets/img/but-did-you-know.jpg" alt="did_you_know">
+  <mat-list>
+    <mat-list-item>
+      <p matLine>You are selling: </p>
+      <p matLine><span class="notice-that">{{nrOfAllCars}}</span> cars</p>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>
+      <p matLine>With net value of: </p>
+      <p matLine><span class="notice-that">{{basePriceOfAllCars.toLocaleString()}}</span> PLN</p>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>
+      <p matLine>When sold, they will bring you great wealth of:</p>
+      <p matLine><span class="notice-that">{{earnPrediction.toLocaleString()}}</span> PLN</p>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item><p matLine><span class="notice-that">{{nrOfCarsOlderThan}}</span> of them are older than {{date| date:'yyyy'}}</p></mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>
+      <p matLine><span class="notice-that">{{carsWithImages}}</span> have they unique pictures</p>
+      <p matLine>{{carsWithImagesMsg}}</p>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>
+      <p matLine>Funny fact :)</p>
+      <p matLine><span class="notice-that">{{engineVolumeOfAllCars}}</span> is capacity of engines of cars for sale</p>
+    </mat-list-item>
+  </mat-list>
+</mat-card>

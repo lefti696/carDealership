@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Car} from '../car';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError, tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import { throwError } from 'rxjs';
 
 // const predefinedCredentials = {
 //   username: 'user',
@@ -30,18 +32,27 @@ export class SellerCarService {
   private baseCarDealershipAppUrl = '//localhost:8080';
   private carSellerDealershipAppUrl = '//localhost:8080/seller';
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private router: Router) {
   }
 
   /** GET all available cars */
-  getAllCars(): Observable<Car[]> {
-    this.checkAuthentication();
-    this.log('Getting all available cars. for: ');
+  getAllCars(): Observable<Car[] | any> {
+    // this.checkAuthentication();
+    this.log('Getting all available cars. for httpOptions: ');
     console.log(this.httpOptions);
     const url = `${this.carSellerDealershipAppUrl}/getAllCars`;
     return this.http.get<Car[]>(url, this.httpOptions).pipe(
-      catchError(this.handleError<any>('getAllCars'))
+      catchError(this.handleErrorCode)
     );
+  }
+
+  handleErrorCode(error: Response | any) {
+    console.log(error);
+    console.log(error.status);
+    return throwError(error);
+    // return Observable.throw(error);
   }
 
   /** GET car by id */
@@ -104,7 +115,11 @@ export class SellerCarService {
         this.httpOptions = null;
         this.log('User is NOT authenticated to server.');
       }
-      return callback && callback();
+      // if callback is true than perform callback()
+      return callback && callback(this.authenticated);
+    }, error1 => {
+      console.log('error during logging in');
+      return callback && callback(this.authenticated);
     });
   }
 

@@ -1,5 +1,7 @@
 package com.tomasz.wozniak.cardealershipproject.model;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 
 @Entity(name = "cars")
@@ -39,6 +41,12 @@ public class CarModel {
     @Column
     private int retailPrice;
 
+    @Column
+    private double engineVolume;
+
+    @Column
+    private String engineDescription;
+
     @OneToOne
     @JoinColumn(name = "car_image_id", unique = true)
     private CarPictureModel carPictureModel;
@@ -46,18 +54,20 @@ public class CarModel {
     public CarModel() {
     }
 
-    public CarModel(String color, String make, String model, int mfy, int mfm, boolean recommended,
-                    String description, String sellerNote, int basePrice, int retailPrice, CarPictureModel carPictureModel) {
+    public CarModel(String color, String make, String model, boolean recommended, int mfy, int mfm, String description,
+                    String sellerNote, int basePrice, int retailPrice, double engineVolume, String engineDescription, CarPictureModel carPictureModel) {
         this.color = color;
         this.make = make;
         this.model = model;
+        this.recommended = recommended;
         this.mfy = mfy;
         this.mfm = mfm;
-        this.recommended = recommended;
         this.description = description;
         this.sellerNote = sellerNote;
         this.basePrice = basePrice;
         this.retailPrice = retailPrice;
+        this.engineVolume = engineVolume;
+        this.engineDescription = engineDescription;
         this.carPictureModel = carPictureModel;
     }
 
@@ -162,5 +172,21 @@ public class CarModel {
 
     public void setRetailPrice(int retailPrice) {
         this.retailPrice = retailPrice;
+    }
+
+    public double getEngineVolume() {
+        return engineVolume;
+    }
+
+    public void setEngineVolume(double engineVolume) {
+        this.engineVolume = engineVolume;
+    }
+
+    public String getEngineDescription() {
+        return engineDescription;
+    }
+
+    public void setEngineDescription(String engineDescription) {
+        this.engineDescription = engineDescription;
     }
 }

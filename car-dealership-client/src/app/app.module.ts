@@ -15,9 +15,10 @@ import {FormsModule} from '@angular/forms';
 import {LoginDialogComponent} from './login-dialog/login-dialog.component';
 import {StorageServiceModule} from 'angular-webstorage-service';
 import {FavoriteCarListComponent} from './favorite-car-list/favorite-car-list.component';
-import { NotificationDialogComponent } from './notification-dialog/notification-dialog.component';
-import { RecommendationsComponent } from './recommendations/recommendations.component';
-import { CarSearchComponent } from './car-search/car-search.component';
+import {NotificationDialogComponent} from './notification-dialog/notification-dialog.component';
+import {RecommendationsComponent} from './recommendations/recommendations.component';
+import {CarSearchComponent} from './car-search/car-search.component';
+import {SellingStatisticsComponent} from './selling-statistics/selling-statistics.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { CarSearchComponent } from './car-search/car-search.component';
     FavoriteCarListComponent,
     NotificationDialogComponent,
     RecommendationsComponent,
-    CarSearchComponent
+    CarSearchComponent,
+    SellingStatisticsComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,7 @@ import { CarSearchComponent } from './car-search/car-search.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    StorageServiceModule
+    StorageServiceModule,
   ],
   entryComponents: [LoginDialogComponent, NotificationDialogComponent],
   providers: [],

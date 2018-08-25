@@ -58,6 +58,8 @@ public class CarDaoImpl implements CarDao {
         carToUpdate.setDescription(updatedCarModel.getDescription());
         carToUpdate.setBasePrice(updatedCarModel.getBasePrice());
         carToUpdate.setRetailPrice(updatedCarModel.getRetailPrice());
+        carToUpdate.setEngineVolume(updatedCarModel.getEngineVolume());
+        carToUpdate.setEngineDescription(updatedCarModel.getEngineDescription());
 
         CarPictureModel updatedCarPictureModel = updatedCarModel.getCarPictureModel();
 

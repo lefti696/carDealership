@@ -18,6 +18,13 @@
   /*margin from top of site*/
   margin-top: 50px;
 }
+.personal-note {
+  color: #cc0000;
+}
+
+.description {
+  color: #002b70;
+}
 
 .center-image {
   display: block;
