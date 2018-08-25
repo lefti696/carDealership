@@ -8,9 +8,52 @@
 <app-recommendations></app-recommendations>
 
 <app-car-search></app-car-search>
+
+
+<div style="text-align:center" class="mat-title">
+  <h3>Price filtering</h3>
+</div>
+<mat-form-field>
+  <mat-select placeholder="Select Max Price" [(ngModel)]="maxPriceSelected"
+              (selectionChange)="updatePriceSelection($event)">
+    <mat-option *ngFor="let price of listOfPrices" [value]="price.valueOf()">
+      {{price.toLocaleString()}} zł
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!--price filtering-->
+<br>
+<mat-form-field>
+  <mat-select placeholder="Select Min Price" [(ngModel)]="minPriceSelected"
+              (selectionChange)="updatePriceSelection($event)">
+    <mat-option *ngFor="let price of listOfPrices" [value]="price.valueOf()">
+      {{price.toLocaleString()}} zł
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<br>
+<mat-slide-toggle (change)="filterResults($event)">Filter results !</mat-slide-toggle>
+<br>
+<br>
+<div *ngIf="filterMsg" style="text-align:center" class="mat-body-1">
+  <p>Displaying cars in price range:</p>
+  <p>{{minPriceSelected.toLocaleString()}} zł - {{maxPriceSelected.toLocaleString()}} zł</p>
+</div>
+
+<div *ngIf="filterErrMsg" style="text-align:center" class="mat-body-1">
+  <font color="#cc0000">{{filterErrMsg}}</font>
+</div>
+
+<div *ngIf="listOfCars.length === 0">
+  <div style="text-align:center" class="mat-title">
+    <h3>There are no cars to display</h3>
+  </div>
+</div>
+
+<!--list of cars-->
 <ul class="list-of-cars">
   <li *ngFor="let car of listOfCars">
-
 
     <mat-card class="car-details-card">
       <mat-card-header>
@@ -54,7 +97,8 @@
 
         <div class="button-row">
           <button mat-stroked-button color="accent" routerLink="/details/{{car.id}}">
-            Click here to see detailed description</button>
+            Click here to see detailed description
+          </button>
         </div>
       </mat-card-actions>
     </mat-card>

@@ -1,6 +1,7 @@
 <div class="button-row">
   <div [hidden]="isAuthenticated()">
     <button mat-stroked-button color="primary" routerLink="/welcome">Welcome screen</button>
+    &nbsp;
     <button mat-stroked-button color="accent" routerLink="/favorites">My favorite cars</button>
   </div>
   <div [hidden]="!isAuthenticated()">
@@ -11,6 +12,7 @@
 <div [hidden]="!isAuthenticated()">
     <div style="text-align:right" class="mat-subheading-2">
       <button mat-raised-button routerLink="/dashboard">Seller dashboard</button>
+      &nbsp;
       <button mat-stroked-button color="primary" (click)="logout()">Logout</button>
     </div>
 </div>

@@ -7,7 +7,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {isStorageAvailable, SESSION_STORAGE, StorageService} from 'angular-webstorage-service';
 import {MatSnackBar} from '@angular/material';
 import {SellerCarService} from '../seller-car.service';
-import {NavigationEnd, Router} from '@angular/router';
+import {Router} from '@angular/router';
 
 const STORAGE_KEY = 'fav-cars';
 const STORAGE_KEY_CARS_NR = 'last-car-count';
@@ -21,7 +21,15 @@ const sessionStorageAvailable = isStorageAvailable(sessionStorage);
 export class CarListComponent implements OnInit {
 
   listOfCars: Car[] = [];
+  listOfCarsBackedUp: Car[];
   listOfFavoriteCars: number[] = [];
+
+  listOfPrices: number[];
+  maxPriceSelected: number;
+  minPriceSelected: number;
+  filterMsg: string;
+  filterErrMsg: string;
+  sliderChecked = false;
 
   constructor(private carOfferService: CarOfferService,
               private sellerCarService: SellerCarService,
@@ -36,6 +44,7 @@ export class CarListComponent implements OnInit {
     this.refreshListOfFavoriteCars();
     this.getAllCars();
     this.log(`Session storage available: ${sessionStorageAvailable}`);
+    this.fillListOfPricesForDropDown();
 
     // scroll to bottom if redirected
     // this.router.events.subscribe((evt) => {
@@ -141,6 +150,62 @@ export class CarListComponent implements OnInit {
         this.log('Undo add to favorites car with id: ' + car.id);
       });
     }
+  }
+
+  filterResults(event) {
+    console.log('event:' + event);
+    if (event.checked === true) {
+      this.sliderChecked = true;
+      console.log('filtering results');
+
+      if (null == this.listOfCarsBackedUp || this.listOfCarsBackedUp.length <= 0) {
+        console.log('Backing up car list');
+        this.listOfCarsBackedUp = this.listOfCars;
+      } else {
+        console.log('Car list already backed up');
+      }
+
+      if ((this.minPriceSelected > this.maxPriceSelected) || (this.maxPriceSelected === 0)
+        || null == this.minPriceSelected || null == this.maxPriceSelected) {
+        this.filterErrMsg = 'Invalid price range';
+      } else {
+        // proceed with filtering
+        const tempListOfCars: Car[] = [];
+        for (const car of this.listOfCarsBackedUp) {
+          if (null != car.retailPrice && car.retailPrice >= this.minPriceSelected && car.retailPrice <= this.maxPriceSelected) {
+            tempListOfCars.push(car);
+          }
+        }
+        this.filterMsg = 'Found: ' + tempListOfCars.length + ' cars';
+        this.listOfCars = tempListOfCars;
+      }
+    }
+    if (event.checked === false) {
+      this.sliderChecked = false;
+      console.log('removing filtering');
+      this.listOfCars = this.listOfCarsBackedUp;
+      this.filterErrMsg = null;
+      this.filterMsg = null;
+      this.maxPriceSelected = null;
+      this.minPriceSelected = null;
+    }
+  }
+
+  public updatePriceSelection(event) {
+    console.log('updatePriceSelection: ' + this.minPriceSelected + ' - ' + this.maxPriceSelected);
+    if (this.sliderChecked === true) {
+      event.checked = true;
+      this.filterResults(event);
+    }
+  }
+
+  private fillListOfPricesForDropDown() {
+    const priceList: number[] = [];
+    // less than milion
+    for (let i = 0; i < 1000000; i = i + 10000) {
+      priceList.push(i);
+    }
+    this.listOfPrices = priceList;
   }
 
   private checkIfCarIsFavourite() {
