@@ -1,20 +1,68 @@
-<br>
 
 <div>
   <button mat-raised-button color="primary" (click)="goBack()">go back to list</button>
 </div>
 
+<!--<p>-->
+  <!--<img src="../assets/img/car_details.jpg" alt="car details image" class="center-image stretch">-->
+<!--</p>-->
+
+<div style="text-align:center" class="mat-title">
+  <h2>Details of:</h2>
+</div>
+
 <div *ngIf="car">
 
   <mat-card class="car-details-card">
+    <mat-card-header>
+      <mat-card-subtitle><h2>{{car.make}}</h2></mat-card-subtitle>
+      <mat-card-title><h2>{{car.model}}</h2></mat-card-title>
+    </mat-card-header>
 
-    <h2>{{car.make}} Details</h2>
-    <div><span>color: </span>{{car.color}}</div>
-    <div><span>manufacture year: </span>{{car.mfy}}</div>
+    <mat-card-content>
+      <div *ngIf="car.carImage" align="center">
+        <img [src]="car.carImage.carImgUrl" style="width: 100%; height: 100%">
+      </div>
+    </mat-card-content>
 
+    <!--<mat-card-actions align="start">-->
+      <!--<div class="button-row">-->
+        <!--<button mat-button routerLink="/details/{{car.id}}">DETAILS</button>-->
+      <!--</div>-->
+    <!--</mat-card-actions>-->
+      <mat-card-subtitle>Our best price: <h2>{{car.retailPrice.toLocaleString()}} zł</h2></mat-card-subtitle>
 
   </mat-card>
 
+  <br>
+  <br>
+  <mat-card class="car-details-card">
+    <mat-card-content>
+        <mat-list>
+          <mat-list-item>Color:&nbsp;&nbsp;<span class="notice-that">{{car.color}}</span></mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>Engine:&nbsp;&nbsp;<span class="notice-that">{{car.engineVolume}}</span>&nbsp;&nbsp;<span class="notice-that-2">{{car.engineDescription}}</span></mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>Mfe year:&nbsp;&nbsp;<span class="notice-that">{{car.mfy}}</span></mat-list-item>
+        </mat-list>
+    </mat-card-content>
+  </mat-card>
+  <br>
+  <br>
+  <mat-card class="car-details-card">
+    <mat-card-content>
+      <div style="text-align:center" class="mat-title">
+        <h4>Description:</h4>
+      </div>
+
+      <div style="text-align:left" class="mat-title">
+        <span class="description"> {{car.description}} </span>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+
+  <!--favorite button-->
   <div [hidden]="!isSessionAvailable()" class="car-details-fab">
     <button mat-fab (click)="toggleFavorite(car)" color="{{car.isFavorite ? 'warn' : ''}}">
       <mat-icon>{{car.isFavorite ? 'favorite' : 'favorite_border'}}</mat-icon>
@@ -22,3 +70,10 @@
   </div>
 
 </div>
+
+<br>
+<br>
+<br>
+<br>
+
+

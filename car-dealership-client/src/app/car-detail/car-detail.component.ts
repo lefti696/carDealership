@@ -5,6 +5,9 @@ import {ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';
 import {isStorageAvailable, SESSION_STORAGE, StorageService} from 'angular-webstorage-service';
 import {MatSnackBar} from '@angular/material';
+import {base64ToBlob} from '../../base64ToBlob';
+import {CarImage} from '../../carImage';
+import {DomSanitizer} from '@angular/platform-browser';
 
 const STORAGE_KEY = 'fav-cars';
 const sessionStorageAvailable = isStorageAvailable(sessionStorage);
@@ -24,6 +27,7 @@ export class CarDetailComponent implements OnInit {
     private location: Location,
     private carOfferService: CarOfferService,
     private snackBar: MatSnackBar,
+    private domSanitizer: DomSanitizer,
     @Inject(SESSION_STORAGE) private storage: StorageService
   ) {
   }
@@ -40,7 +44,18 @@ export class CarDetailComponent implements OnInit {
     this.carOfferService.getCarById(id).subscribe(dataFromService => {
       this.car = dataFromService;
       this.car.isFavorite = this.checkIfCarIsFavourite(this.car);
+      this.fillImage();
     });
+  }
+
+  fillImage() {
+    if (null != this.car.carImage) {
+      const blob = base64ToBlob(this.car.carImage.data, this.car.carImage.fileType);
+      this.car.carImage.carImgUrl = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+    } else {
+      this.car.carImage = new CarImage();
+      this.car.carImage.carImgUrl = '/src/assets/img/car-icons.gif';
+    }
   }
 
   goBack(): void {

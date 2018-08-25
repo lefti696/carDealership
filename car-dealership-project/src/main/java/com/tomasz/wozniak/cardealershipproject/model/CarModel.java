@@ -29,7 +29,7 @@ public class CarModel {
     @Column
     private int mfm;
 
-    @Column
+    @Column(length=10485760)
     private String description;
 
     @Column

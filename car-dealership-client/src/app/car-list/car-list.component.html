@@ -26,11 +26,12 @@
 
       <mat-card-content>
 
-        <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-list cols="2">
           <!--left side -->
           <mat-grid-tile>
             <mat-list>
               <mat-list-item>Color: {{car.color}}</mat-list-item>
+              <mat-list-item>Engine: {{car.engineVolume}} {{car.engineDescription}}</mat-list-item>
               <mat-list-item>Mfe year: {{car.mfy}}</mat-list-item>
             </mat-list>
           </mat-grid-tile>
@@ -38,17 +39,22 @@
           <!--right side-->
           <mat-grid-tile>
             <div *ngIf="car.carImage" align="center">
-              <img [src]="car.carImage.carImgUrl" style="width: 70%; height: 70%">
+              <img [src]="car.carImage.carImgUrl" style="width: 85%; height: 85%">
             </div>
           </mat-grid-tile>
         </mat-grid-list>
+
+        <div style="text-align:center" class="mat-title">
+          Our best price: <h4>{{car.retailPrice.toLocaleString()}} zł</h4>
+        </div>
 
       </mat-card-content>
 
       <mat-card-actions align="end">
 
         <div class="button-row">
-          <button mat-stroked-button color="accent" routerLink="/details/{{car.id}}">DETAILS</button>
+          <button mat-stroked-button color="accent" routerLink="/details/{{car.id}}">
+            Click here to see detailed description</button>
         </div>
       </mat-card-actions>
     </mat-card>
