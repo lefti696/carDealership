@@ -147,7 +147,7 @@ public class CarServiceImpl implements CarService {
         logger.info("Id of created car is " + addCar(
                 new CarData("Moon silver", "Ford", "Focus", 2004, null, true, 0, "If pedal to the metal is your purpose of life this will be a perfect choice." + System.getProperty("line.separator") + fordFocusDesc, "Noone wants to buy. Sell even at lowered price.", 65000, 72000, 2.0, "Duratec")));
         logger.info("Id of created car is " + addCar(
-                new CarData("Poping cherry", "Toyota", "Yaris", 2014, null, false, 0, "Japan reliable car."  + System.getProperty("line.separator") + toyotaYarisDesc, "Good car so negotiations are not possible.", 4000, 45000, 1.33, "vvti")));
+                new CarData("Poping cherry", "Toyota", "Yaris", 2014, null, false, 0, "Japan reliable car."  + System.getProperty("line.separator") + toyotaYarisDesc, "Good car so negotiations are not possible.", 40000, 45000, 1.33, "vvti")));
         logger.info("Id of created car is " + addCar(
                 new CarData("Deep purple", "Nissan", "Micra", 2015, null, false, 0, "Small city car. Easy to park." + System.getProperty("line.separator") + nissanMicraDesc, "Very long standing on a parking lot.", 32000, 39000, 1.2, "petrol")));
 

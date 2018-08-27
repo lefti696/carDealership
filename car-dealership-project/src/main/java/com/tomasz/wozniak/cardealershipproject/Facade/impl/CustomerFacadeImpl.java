@@ -2,19 +2,28 @@ package com.tomasz.wozniak.cardealershipproject.Facade.impl;
 
 import com.tomasz.wozniak.cardealershipproject.Facade.CustomerFacade;
 import com.tomasz.wozniak.cardealershipproject.Items.CarData;
+import com.tomasz.wozniak.cardealershipproject.Items.QuestionData;
 import com.tomasz.wozniak.cardealershipproject.Service.CarService;
+import com.tomasz.wozniak.cardealershipproject.Service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class CustomerFacadeImpl implements CustomerFacade {
 
   private CarService carService;
+  private QuestionService questionService;
 
   @Autowired
   public void setCarService(CarService carService) {
     this.carService = carService;
+  }
+
+  @Autowired
+  public void setQuestionService(QuestionService questionService) {
+    this.questionService = questionService;
   }
 
   @Override
@@ -54,5 +63,10 @@ public class CustomerFacadeImpl implements CustomerFacade {
   @Override
   public Integer countAllCars() {
     return carService.countAllCars();
+  }
+
+  @Override
+  public UUID addNewQuestion(QuestionData questionData) {
+    return questionService.addNewQuestion(questionData);
   }
 }

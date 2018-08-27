@@ -18,12 +18,4 @@ export class Car {
   engineVolume: number;
   engineDescription: string;
 
-  // constructor(
-  //   public id: number,
-  //   public color: string,
-  //   public make: string,
-  //   public model: string,
-  //   public mfy: number
-  // ) {}
-
 }

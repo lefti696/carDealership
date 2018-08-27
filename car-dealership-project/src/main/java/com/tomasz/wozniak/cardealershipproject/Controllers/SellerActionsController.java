@@ -3,7 +3,7 @@ package com.tomasz.wozniak.cardealershipproject.Controllers;
 import com.tomasz.wozniak.cardealershipproject.Facade.SellerFacade;
 import com.tomasz.wozniak.cardealershipproject.Items.CarData;
 import com.tomasz.wozniak.cardealershipproject.Items.CarImage;
-import com.tomasz.wozniak.cardealershipproject.Service.CarService;
+import com.tomasz.wozniak.cardealershipproject.Items.QuestionData;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/seller")
@@ -54,7 +55,7 @@ public class SellerActionsController {
         logger.debug("deleting a car with id: " + id);
         sellerFacade.deleteCar(id);
 
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     @PostMapping("/addNewCar")
@@ -105,34 +106,47 @@ public class SellerActionsController {
         return new ResponseEntity<>(-1, HttpStatus.METHOD_FAILURE);
     }
 
-    /**
-     * SOME OTHER METHODS FOR TESTING
-     *
-     * @return
-     */
 
-    @ResponseBody
-    @RequestMapping("/locked")
-    public CarData getFirstCarFromDb() {
-        logger.debug("getting first car from DB");
-        List<CarData> allCars = sellerFacade.getAllCars();
+    @DeleteMapping("/deleteQuestion/{id}")
+    public ResponseEntity<Void> deleteQuestion(@PathVariable("id") UUID id) {
+        logger.debug("deleting a question with id: " + id);
+        sellerFacade.deleteQuestion(id);
 
-        CarData carToReturn = allCars.get(0);
-        logger.debug("Found car: " + carToReturn.getColor() + " " + carToReturn.getMake());
-
-        return carToReturn;
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @ResponseBody
-    @RequestMapping("/unlocked")
-    public CarData getSecondCarFromDb() {
-        logger.debug("getting first car from DB");
-        List<CarData> allCars = sellerFacade.getAllCars();
+    @RequestMapping("/getAllQuestions")
+    public ResponseEntity<List<QuestionData>> getAllQuestions() {
+        logger.debug("Listing all questions");
 
-        CarData carToReturn = allCars.get(2);
-        logger.debug("Found car: " + carToReturn.getColor() + " " + carToReturn.getMake());
+        List<QuestionData> allQuestions = sellerFacade.getAllQuestions();
+        logger.debug("Found: " + allQuestions.size() + " questions in db.");
+        return new ResponseEntity<List<QuestionData>>(allQuestions, HttpStatus.OK);
+    }
 
-        return carToReturn;
+    @RequestMapping("/getAllQuestions/{pageIndex}/{pageSize}")
+    public ResponseEntity<List<QuestionData>> getAllQuestionsPaginated(
+            @PathVariable("pageIndex") int pageIndex, @PathVariable("pageSize") int pageSize
+    ) {
+        logger.debug("Listing paginated questions, pageIndex: " + pageIndex + " pageSize: " + pageSize);
+
+        List<QuestionData> allQuestions = sellerFacade.getAllQuestions(pageIndex, pageSize);
+        logger.debug("Found: " + allQuestions.size() + " questions in db.");
+        return new ResponseEntity<List<QuestionData>>(allQuestions, HttpStatus.OK);
+    }
+
+    @RequestMapping("/howManyQuestions")
+    public int howManyQuestions() {
+        logger.debug("Counting all available questions.");
+
+        return sellerFacade.countAllQuestions();
+    }
+
+    @RequestMapping(value = "/countAllQuestionForCarId/{id}", method = RequestMethod.GET)
+    public int countAllQuestionForCarId(@PathVariable("id") int id) {
+        logger.debug("Counting questions for a car with id: " + id);
+
+        return sellerFacade.countAllQuestionForCarId(id);
     }
 
 }

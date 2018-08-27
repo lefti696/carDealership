@@ -19,6 +19,8 @@ import {NotificationDialogComponent} from './notification-dialog/notification-di
 import {RecommendationsComponent} from './recommendations/recommendations.component';
 import {CarSearchComponent} from './car-search/car-search.component';
 import {SellingStatisticsComponent} from './selling-statistics/selling-statistics.component';
+import { QuestionDialogComponent } from './question-dialog/question-dialog.component';
+import { QuestionPanelComponent } from './question-panel/question-panel.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import {SellingStatisticsComponent} from './selling-statistics/selling-statistic
     RecommendationsComponent,
     CarSearchComponent,
     SellingStatisticsComponent,
+    QuestionDialogComponent,
+    QuestionPanelComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +48,7 @@ import {SellingStatisticsComponent} from './selling-statistics/selling-statistic
     FormsModule,
     StorageServiceModule,
   ],
-  entryComponents: [LoginDialogComponent, NotificationDialogComponent],
+  entryComponents: [LoginDialogComponent, NotificationDialogComponent, QuestionDialogComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

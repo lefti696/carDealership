@@ -1,0 +1,53 @@
+<div mat-dialog-content>
+  <div style="text-align:center">
+
+    <div style="text-align:center" class="mat-title">
+      Leave a question and we will call you back
+    </div>
+
+    <p>
+      <img src="../assets/img/telephone.jpg" width=100 alt="new question icon" class="center-image stretch">
+    </p>
+
+    <!--<div *ngIf="buyerQuestion && buyerQuestion.carId && buyerQuestion.contactNumber && buyerQuestion.nameAndSurname && buyerQuestion.bodyOfQuestion">-->
+    <div *ngIf="buyerQuestion">
+      <mat-list>
+        <mat-list-item>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Enter your name" [(ngModel)]="buyerQuestion.nameAndSurname">
+          </mat-form-field>
+        </mat-list-item>
+
+        <mat-list-item>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Enter contact number" [(ngModel)]="buyerQuestion.contactNumber">
+          </mat-form-field>
+        </mat-list-item>
+
+        <mat-list-item>
+          <mat-form-field class="example-full-width">
+            <input matInput #message maxlength="255" placeholder="Enter question have you"
+                   [(ngModel)]="buyerQuestion.bodyOfQuestion">
+            <mat-hint align="start"><strong>Make it short</strong></mat-hint>
+            <mat-hint align="end">{{buyerQuestion.bodyOfQuestion.length}} / 255</mat-hint>
+          </mat-form-field>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <br>
+  </div>
+</div>
+
+<div *ngIf="errMsg">
+  <ul class="list-of-errors">
+    <li *ngFor="let err of errMsg">
+      <div *ngIf="err" style="text-align:center"><font color="#cc0000">{{err}}</font></div>
+    </li>
+  </ul>
+</div>
+
+<br>
+<div mat-dialog-actions align="center">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="onYesClick()">Send</button>
+</div>

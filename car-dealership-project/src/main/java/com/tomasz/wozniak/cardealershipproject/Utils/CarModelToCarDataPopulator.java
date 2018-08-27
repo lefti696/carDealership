@@ -3,16 +3,20 @@ package com.tomasz.wozniak.cardealershipproject.Utils;
 import com.tomasz.wozniak.cardealershipproject.Items.CarData;
 import com.tomasz.wozniak.cardealershipproject.model.CarModel;
 import com.tomasz.wozniak.cardealershipproject.model.CarPictureModel;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CarModelToCarDataPopulator {
 
+    private static final Logger logger = Logger.getLogger(CarModelToCarDataPopulator.class);
+
     @Autowired
     private CarPictureModelToCarImagePopulator carPictureModelToCarImagePopulator;
 
     public CarData convert(CarModel carModel) {
+        logger.debug("Converting CarModel => CarData");
         CarData carData = new CarData();
 
         carData.setId(carModel.getId());

@@ -1,7 +1,5 @@
 package com.tomasz.wozniak.cardealershipproject.model;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 
 @Entity(name = "cars")

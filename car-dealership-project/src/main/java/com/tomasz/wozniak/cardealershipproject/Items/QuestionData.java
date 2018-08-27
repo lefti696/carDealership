@@ -1,39 +1,28 @@
-package com.tomasz.wozniak.cardealershipproject.model;
+package com.tomasz.wozniak.cardealershipproject.Items;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
 import java.util.UUID;
 
-@Entity(name = "questions")
-public class QuestionModel {
+public class QuestionData {
 
-  @Id
-  @GeneratedValue(generator = "UUID")
-  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
   private UUID id;
 
-  @Column
   private int contactNumber;
 
-  @Column
   private String nameAndSurname;
 
-  @Column(length = 10485760)
   private String bodyOfQuestion;
 
-  @ManyToOne
-  @JoinColumn(name = "quested_car_id")
-  private CarModel carModel;
+  private CarData carData;
 
-  public QuestionModel() {
+  public QuestionData() {
   }
 
-  public QuestionModel(int contactNumber, String nameAndSurname, String bodyOfQuestion, CarModel carModel) {
+  public QuestionData(UUID id, int contactNumber, String nameAndSurname, String bodyOfQuestion, CarData carData) {
+    this.id = id;
     this.contactNumber = contactNumber;
     this.nameAndSurname = nameAndSurname;
     this.bodyOfQuestion = bodyOfQuestion;
-    this.carModel = carModel;
+    this.carData = carData;
   }
 
   public UUID getId() {
@@ -68,11 +57,17 @@ public class QuestionModel {
     this.bodyOfQuestion = bodyOfQuestion;
   }
 
-  public CarModel getCarModel() {
-    return carModel;
+  public CarData getCarData() {
+    return carData;
   }
 
-  public void setCarModel(CarModel carModel) {
-    this.carModel = carModel;
+  public void setCarData(CarData carData) {
+    this.carData = carData;
+  }
+
+  @Override
+  public String toString() {
+    return "Question id: " + getId() + " Name: " + getNameAndSurname() + " Number: "
+      + getContactNumber() + " Body: " + getBodyOfQuestion();
   }
 }

@@ -25,11 +25,6 @@
       </div>
     </mat-card-content>
 
-    <!--<mat-card-actions align="start">-->
-      <!--<div class="button-row">-->
-        <!--<button mat-button routerLink="/details/{{car.id}}">DETAILS</button>-->
-      <!--</div>-->
-    <!--</mat-card-actions>-->
       <mat-card-subtitle>Our best price: <h2>{{car.retailPrice.toLocaleString()}} zł</h2></mat-card-subtitle>
 
   </mat-card>
@@ -60,6 +55,11 @@
       </div>
 
     </mat-card-content>
+    <mat-card-actions align="end">
+      <div class="button-row">
+        <button mat-stroked-button color="accent" (click)="openDialog()">Still have questions ?</button>
+      </div>
+    </mat-card-actions>
   </mat-card>
 
   <!--favorite button-->

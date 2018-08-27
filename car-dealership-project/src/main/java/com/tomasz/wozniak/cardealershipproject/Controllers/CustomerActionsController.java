@@ -2,12 +2,15 @@ package com.tomasz.wozniak.cardealershipproject.Controllers;
 
 import com.tomasz.wozniak.cardealershipproject.Facade.CustomerFacade;
 import com.tomasz.wozniak.cardealershipproject.Items.CarData;
-import com.tomasz.wozniak.cardealershipproject.Service.CarService;
+import com.tomasz.wozniak.cardealershipproject.Items.QuestionData;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class CustomerActionsController {
@@ -30,19 +33,6 @@ public class CustomerActionsController {
         CarData firstCar = new CarData(color, make, model, Integer.valueOf(mfy));
 
         return firstCar;
-    }
-
-    //to remove
-    @ResponseBody
-    @RequestMapping("/getFirstCarFromDb")
-    public CarData getFirstCarFromDb() {
-        logger.debug("getting first car from DB");
-        List<CarData> allCars = customerFacade.getAllCars();
-
-        CarData carToReturn = allCars.get(0);
-        logger.debug("Found car: " + carToReturn.getColor() + " " + carToReturn.getMake());
-
-        return carToReturn;
     }
 
     @RequestMapping("/getAllCars")
@@ -75,6 +65,15 @@ public class CustomerActionsController {
         logger.debug("looking for a car with id: " + id + " for customer.");
 
         return customerFacade.getCarById(id);
+    }
+
+    @PostMapping("/addNewQuestion")
+    public ResponseEntity<UUID> addNewQuestion(@RequestBody QuestionData questionData) {
+        logger.debug("adding a new question: " + questionData.toString());
+
+        UUID newQuestionId = customerFacade.addNewQuestion(questionData);
+        logger.debug("successfully created with id: " + newQuestionId);
+        return new ResponseEntity<UUID>(newQuestionId, HttpStatus.CREATED);
     }
 
 

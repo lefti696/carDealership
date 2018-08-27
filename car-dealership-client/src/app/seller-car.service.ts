@@ -1,23 +1,10 @@
 import {Injectable} from '@angular/core';
-import {of} from 'rxjs';
-import {Observable} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {Car} from '../car';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError, tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import { throwError } from 'rxjs';
-
-// const predefinedCredentials = {
-//   username: 'user',
-//   password: 'password'
-// };
-
-
-// const httpOptions = {
-//   headers: new HttpHeaders({
-//     authorization: 'Basic ' + btoa(predefinedCredentials.username + ':' + predefinedCredentials.password)
-//   })
-// };
+import {Question} from '../question';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +13,6 @@ import { throwError } from 'rxjs';
 export class SellerCarService {
 
   authenticated = false;
-
   httpOptions = {};
 
   private baseCarDealershipAppUrl = '//localhost:8080';
@@ -156,6 +142,56 @@ export class SellerCarService {
 
   log(msg: string): void {
     console.log('SellerCarService: ' + msg);
+  }
+
+  /** DELETE: delete the Question from the server
+   *  can be passed by id:number or whole object */
+  deleteQuestion(question: Question | string): Observable<Question> {
+    const id = typeof question === 'string' ? question : question.id;
+    this.log(id.toString());
+    const url = `${this.carSellerDealershipAppUrl}/deleteQuestion/${id}`;
+
+    return this.http.delete<Question>(url, this.httpOptions);
+  }
+
+  /** GET all available Questions with paginator*/
+  getAllQuestions(pageIndex: number, pageSize: number): Observable<Question[] | any> {
+
+    let url: string;
+    if ((null == pageIndex || 0 === pageIndex) && (null == pageSize || 0 === pageSize)) {
+      console.log('Getting All Questions without pagination');
+      url = `${this.carSellerDealershipAppUrl}/getAllQuestions`;
+    } else {
+      console.log('Getting All Questions paginated, pageIndex: ' + pageIndex + ' pageSize: ' + pageSize);
+      url = `${this.carSellerDealershipAppUrl}/getAllQuestions/${pageIndex}/${pageSize}`;
+    }
+
+    // this.checkAuthentication();
+    this.log('Getting all available Questions. for httpOptions: ');
+    console.log(this.httpOptions);
+    return this.http.get<Question[]>(url, this.httpOptions).pipe(
+      catchError(this.handleErrorCode)
+    );
+  }
+
+  /** Question methods */
+
+  /** GET number of available questions */
+  howManyQuestions(): Observable<number> {
+    console.log('getting number of available questions');
+    const url = `${this.carSellerDealershipAppUrl}/howManyQuestions`;
+    return this.http.get<number>(url, this.httpOptions).pipe(
+      catchError(this.handleErrorCode)
+    );
+  }
+
+  /** GET number of available questions */
+  countAllQuestionForCarId(carId: number): Observable<number> {
+    console.log('getting number of available questions for carId: ' + carId);
+    const url = `${this.carSellerDealershipAppUrl}/countAllQuestionForCarId/${carId}`;
+    return this.http.get<number>(url, this.httpOptions).pipe(
+      catchError(this.handleErrorCode)
+    );
   }
 
   /**

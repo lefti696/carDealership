@@ -4,10 +4,12 @@ import {CarOfferService} from '../car-offer.service';
 import {ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';
 import {isStorageAvailable, SESSION_STORAGE, StorageService} from 'angular-webstorage-service';
-import {MatSnackBar} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {base64ToBlob} from '../../base64ToBlob';
 import {CarImage} from '../../carImage';
 import {DomSanitizer} from '@angular/platform-browser';
+import {Question} from '../../question';
+import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';
 
 const STORAGE_KEY = 'fav-cars';
 const sessionStorageAvailable = isStorageAvailable(sessionStorage);
@@ -21,6 +23,7 @@ export class CarDetailComponent implements OnInit {
 
   car: Car;
   listOfFavoriteCars: number[];
+  carQuestion: Question;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,6 +31,7 @@ export class CarDetailComponent implements OnInit {
     private carOfferService: CarOfferService,
     private snackBar: MatSnackBar,
     private domSanitizer: DomSanitizer,
+    public dialog: MatDialog,
     @Inject(SESSION_STORAGE) private storage: StorageService
   ) {
   }
@@ -108,6 +112,17 @@ export class CarDetailComponent implements OnInit {
 
   isSessionAvailable() {
     return sessionStorageAvailable;
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(QuestionDialogComponent, {
+      width: '600 px',
+      data: {id: this.car.id}
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
   }
 
   private checkIfCarIsFavourite(car: Car): boolean {

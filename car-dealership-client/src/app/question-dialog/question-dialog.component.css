@@ -1,0 +1,13 @@
+.stretch {
+  width: 125px;
+  height: auto;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.list-of-errors {
+  /*remove dots for list*/
+  list-style-type: none;
+}
